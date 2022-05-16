@@ -3,7 +3,7 @@ SRCS=$(wildcard *.cpp)
 OBJS=$(SRCS:.cpp=.o)
 CXX=g++
 BASEPATH=../inc/OSApiStudent/
-LIBPATH=$(BASEPATH)lib/host/debug/
+LIBPATH=$(BASEPATH)lib/host/release/
 # Determine whether this is a debug build or not
 ifdef DEBUG
 CXXFLAGS=-ggdb -O0

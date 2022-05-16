@@ -7,7 +7,7 @@
 #define BUFFER_SIZE                 500
 
 void SystemManager::listenSettingsUpdate(){
-    listenerThread listener_;
+    listenerThread listener_;   
     lt_ = new Thread(&listener_);
 
     lt_->start();
