@@ -6,8 +6,9 @@
 #define WATCH_DELAY_MS              100
 #define BUFFER_SIZE                 500
 
+
 void SystemManager::listenSettingsUpdate(){
-    listenerThread listener_;   
+    ListenerThread listener_;   
     lt_ = new Thread(&listener_);
 
     lt_->start();
@@ -17,7 +18,7 @@ void SystemManager::listenSettingsUpdate(){
 }
 
 // Check https://linuxhint.com/inotify_api_c_language/ for good example of using inotify
-void SystemManager::listenerThread::run(){
+void SystemManager::ListenerThread::run(){
     printf("Made a new listener thread :)) \n");
 
     init_inot();
@@ -48,7 +49,7 @@ void SystemManager::listenerThread::run(){
     }
 }
 
-int SystemManager::listenerThread::init_inot(){
+int SystemManager::ListenerThread::init_inot(){
     inotify_fd = inotify_init();
     if(inotify_fd < 0){
         printf("Error initializing inotify instance\n");

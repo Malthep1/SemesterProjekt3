@@ -12,6 +12,7 @@
  * 
  */
 
+#include "CommandController.hpp"
 #include <osapi/Thread.hpp>
 #include <osapi/linux/Thread.hpp>
 #include <osapi/linux/ThreadFunctor.hpp>
@@ -22,6 +23,15 @@
 using osapi::Thread;
 using osapi::ThreadFunctor;
 
+struct Setting
+{
+    std::vector<int> feedingtimes;
+    int foodAmount;
+    int treatLimit;
+    bool treatsEnabled = false;
+    bool treatRequestsEnabled = false;
+};
+
 class SystemManager{
 public:
     SystemManager() : lt_(nullptr){
@@ -29,11 +39,16 @@ public:
     };
 
 private:
+    //Settings Struct
+    Setting currentSetting;
+
+    //Command Controller Object
+    CommandController cmdCtrl;
 
     // Implementation of listener thread goes here
-    class listenerThread : public ThreadFunctor{
+    class ListenerThread : public ThreadFunctor{
     public:
-        listenerThread() : inotify_fd(NULL){}
+        ListenerThread() : inotify_fd(NULL){}
     private:
         void run();
         // Setup fcntl and inotify 
@@ -41,7 +56,7 @@ private:
         int inotify_fd;
         int inotify_watch_fd;
     };
-
+    void runSystem();
     void listenSettingsUpdate();
     // If we want more threads we make a vector<Thread*> instead (threadpool) and listenSettingsUpdate()
     // can returns pointer to put the thread inside the vector

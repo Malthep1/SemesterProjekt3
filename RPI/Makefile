@@ -16,9 +16,11 @@ LNKFLAGS=-L$(LIBPATH) -lOSApi -lrt -lpthread
 
 $(OBJS):$(SRCS)
 	$(CXX) $(CXXFLAGS) -c $@ $^
+
 # Then again, note how the flags are NOT part of the linking process
 main:$(OBJS)
-	$(CXX) -o main $(OBJS) -L$(LIBPATH) -lOSApi -lrt -lpthread
+	$(CXX) -o main $(OBJS) $(LNKFLAGS)
+
 
 all:main
 
