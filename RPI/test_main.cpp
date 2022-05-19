@@ -12,7 +12,7 @@ int main(void){
     MsgQueue mQueue(2);
     WebComm webCom;
     printf("ok ");
-    webCom.create_new_connection(&mQueue, 2);
+    webCom.create_new_connection(&mQueue, WebComm::REQ_AUTH);
     printf("ok ");
     webCom.shutdownConnection();
     printf("ok ");

@@ -1,0 +1,5 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/mnt/workspace/FoodGiver/SemesterProjekt3/RPI'
+g++ -O2 -DOS_LINUX -I../inc/OSApiStudent/inc -c WebComm.o WebComm.cpp test_main.cpp
+make: Leaving directory '/mnt/workspace/FoodGiver/SemesterProjekt3/RPI'
+ 
