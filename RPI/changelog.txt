@@ -1,0 +1,34 @@
+/*
+* WebComm branch changelog
+*
+* 5/12/2022
+* v.01  
+*
+* Added class function definitions
+* 
+* 5/16/2022
+* v.02
+* 
+* Implemented primary control interface
+* Implemented automatically getting IP to "foodgiver.hopto.org"
+* Implemented sending a tcp message 
+* Facilitates sending Msg via MsgQueue, but that will be implemented after SystemController has a mq
+* Facilitates implementing different request types (send treat, send info, + auth?)
+* Commented some functions
+*
+* 5/20/2022
+* v.03
+*
+* - Implemented sending different kind of tcp requests to the server
+* - Test by calling main from shell with a parameter
+* - Viable test parameters:
+* - - "info"
+* - - "auth"
+* - - "treat"
+*
+* - Blocks on "auth" call (tries to receive, but server doesn't send anything atm)
+* - createNewConnection() takes enum REQ_TYPE as parameter and thread chooses the correct protocol based
+*   on that
+* - This allows SystemController to be in charge of the correct request REQ_TYPE
+*
+*/

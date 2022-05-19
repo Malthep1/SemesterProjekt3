@@ -20,20 +20,34 @@ Thread* WebComm::create_new_connection(MsgQueue* scQueue, REQ_TYPE req_type){
 }
 
 // Setup tcp connection with the server and run the correct protocol
-// TODO: Different types of requests
 // TODO: First time authorization
 void WebComm::connThread::run(){
     setup_connection();
+    
+    // Debug
+    printf("Type == %ld\n", type_);
+
+    // Pick between the three available request types
     switch(type_){
-        case REQ_AUTH:
+        case REQ_AUTH:{
             send_auth();
             break;
+        }
+        case REQ_TREAT:{
+            send_req_treat();
+            break;
+        }
+        case REQ_SEND_INFO: {
+            send_req_info();
+            break;
+        }
         default:
             printf("Unrecognized request\n");
     }
 }
 
-/* The three protocols that we use are implemented here*/
+/* The three protocols that we use are implemented here
+*  TODO: implement error handling on incorrect amount of bytes sent*/
 int WebComm::connThread::send_auth(){
     char msg_from_serv[20];
     char msg_to_serv[5] = "auth";
@@ -61,10 +75,47 @@ int WebComm::connThread::send_auth(){
 }
 
 int WebComm::connThread::send_req_treat(){
+    char msg_from_serv[20];
+    char msg_to_serv[10] = "treat_42";
+    msg_to_serv[9] = '\0';
+
+    // Send and receive msgs to server according to protocol
+    int bytes = send(socket_fd, msg_to_serv, 10, 0);
+    printf("Sent %i bytes\n", bytes);
+
+    bytes = read(socket_fd, msg_from_serv, 5);
+    printf("Received %i bytes\n", bytes);
+
+    std::string reply(msg_from_serv);
+    if(m_ack.compare(reply) != 0){
+        printf("Server not acknowledged command\n");
+        return -1;
+    }
+    printf("Server acknowledged command\n");
+    printf("%s\n", msg_from_serv);
     return 0;
 }
 
 int WebComm::connThread::send_req_info(){
+    char msg_from_serv[20];
+    char msg_to_serv[10] = "info_12";
+    msg_to_serv[8] = '\0';
+
+    // Send and receive msgs to server according to protocol
+    // TODO: Error handling on incorrect bytes return value
+    int bytes = send(socket_fd, msg_to_serv, 10, 0);
+    printf("Sent %i bytes\n", bytes);
+
+    bytes = read(socket_fd, msg_from_serv, 5);
+    printf("Received %i bytes\n", bytes);
+
+    std::string reply(msg_from_serv);
+    if(m_ack.compare(reply) != 0){
+        printf("Server not acknowledged command\n");
+        return -1;
+    }
+    printf("Server acknowledged command\n");
+    printf("%s\n", msg_from_serv);
     return 0;
 }
 
@@ -109,7 +160,7 @@ int WebComm::connThread::setup_connection(){
         return -1;
     }
 
-    printf("Connection to the server established");
+    printf("Connection to the server established\n");
     
     return 0;
 }
