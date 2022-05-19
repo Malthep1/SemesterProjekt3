@@ -1,7 +1,7 @@
 #include "TCPThreads.hpp"
 
 
-ListenerThread::ListenerThread(int port, const char* servIP, ServTCP* s){
+ListenerThread::ListenerThread(int port, ServTCP* s){
     server = s;
     
     cData.outAddress.sin_port = htons(port);
@@ -9,10 +9,10 @@ ListenerThread::ListenerThread(int port, const char* servIP, ServTCP* s){
     cData.outAddress.sin_addr.s_addr = INADDR_ANY;
     cData.thisAddress.sin_port = htons(port);
     cData.thisAddress.sin_family = AF_INET;
-    // inet_aton(servIP, (in_addr*) &cData.thisAddress.sin_addr.s_addr);
     cData.thisAddress.sin_addr.s_addr = INADDR_ANY;
 }
 
+/* Creates a thread that listens to*/
 void ListenerThread::run(){
     socketId = socket(AF_INET, SOCK_STREAM, 0);
     if(socketId == -1){
@@ -43,17 +43,17 @@ void ListenerThread::run(){
     }
 }
 
-ConnectionThread::ConnectionThread(int tid, ServTCP* s){
-    id = tid;
-    server = s;
-}
+ConnectionThread::ConnectionThread(int tid, ServTCP* s) : connMQueue(2), id(tid), server(s){}
 
+// OneShot Thread: no infinite loop. Dies after message has been handled
+// TODO: Garbage Collection (Destructor?) Send msg to server that it can delete the allocated resource
 void ConnectionThread::run(){
     printf("Connection no %i up and running!\n", id);
     std::string msg = receiveMsg();
     int err = handleMessage(msg);
 }
 
+// Read tcp message, convert it to string type and return it
 std::string ConnectionThread::receiveMsg(){
     memset(buffer, 0, sizeof(buffer));
     read(id, buffer, sizeof(buffer));
@@ -61,20 +61,59 @@ std::string ConnectionThread::receiveMsg(){
     std::cout << "Message: " << message << "\n";
     return message;
 }
-
+/* The handler now parses the string and checks for protocol keywords + user id
+*  Then it passes the user id to the correct handle
+*  Uses string.find() to check for the correct keywords
+*  TODO: Handles should send a correct msg back to ServTCP class via its MsgQueue
+*  TODO: Authorization feature (might need to wait for WS part to do this)
+*/
 int ConnectionThread::handleMessage(std::string msg){
-    if(auth.compare(msg) == 0){
+    
+    if(msg.find(auth) == 0){
         printf("Device requested authorisation\n");
         std::string ack("ack");
         sendMsg(ack);
-        std::string unique_id("42");
-        sendMsg(unique_id);
+        handleAuthorization();
     }
-    else if(treat.compare(msg) == 0){
+    else if((msg.find(treat)) != std::string::npos){
         printf("Pet asked for a treat\n");
+        char char_id[4];
+        int c = 0;
+        for(int i = 5; i < msg.length(); i++){
+            if(msg[i] >= '0' && msg[i] <= '9'){
+                char_id[c] = msg[i];
+                c++;
+            }
+        }
+        char_id[3] = '\0';
+        int user_id = atoi(char_id);
+        printf("id == %d\n", user_id);
+        // Insert check user ID code here
+
+        std::string ack("ack");
+        sendMsg(ack);
+        
+        handleTreatRequest(user_id);
     }
-    else if(info.compare(msg) == 0){
+    else if(msg.find(info) == 0){
         printf("Device requests send info\n");
+        char char_id[4];
+        int c = 0;
+        for(int i = 5; i < msg.length(); i++){
+            if(msg[i] >= '0' && msg[i] <= '9'){
+                char_id[c] = msg[i];
+                c++;
+            }
+        }
+        char_id[3] = '\0';
+        int user_id = atoi(char_id);
+        printf("id == %d\n", user_id);
+
+        std::string ack("ack");
+        sendMsg(ack);
+        
+        // Insert check user ID code here
+        handleInfoSendRequest(user_id);
     }
     else{
         printf("Unrecognized message");
@@ -86,6 +125,17 @@ int ConnectionThread::handleMessage(std::string msg){
     return 0;
 }
 
+int ConnectionThread::handleAuthorization(){
+    return 0;
+}
+int ConnectionThread::handleTreatRequest(int id){
+    return 0;
+}
+int ConnectionThread::handleInfoSendRequest(int id){
+    return 0;
+}
+
+// Copy the content of string msg and send it via tcp
 int ConnectionThread::sendMsg(std::string msg){
     memset(buffer, 0, sizeof(buffer));
     strncpy(buffer, msg.c_str(), msg.length());

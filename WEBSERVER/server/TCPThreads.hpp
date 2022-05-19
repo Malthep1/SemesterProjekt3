@@ -1,12 +1,31 @@
 #pragma once
 
+/*
+* Marcin Szymanek (marcinwszymanek@gmail.com)
+*
+* Implementation of TCP connection threads in FoodgiverService
+*
+* 5/13/2022 
+* v. 0.1
+*
+* Initial commit
+*
+* 5/20/2022
+* v 0.2
+* 
+* Implemented parsing the message received from client
+* TODO: Send correct messages to server after a request has been received and parsed in appropriate handler
+*
+*/
+
 #include "osapi/linux/ThreadFunctor.hpp"
 #include "osapi/linux/Thread.hpp"
+#include "osapi/MsgQueue.hpp"
 #include "string.h"  // For memset !??
-#include <cstring>
-#include <iostream>
-#include "unistd.h"  // read/write 
-#include "netinet/in.h"
+#include <cstring>   // c_str()
+#include <iostream> 
+#include "unistd.h"  // read/write from file/socket 
+#include "netinet/in.h" 
 #include "sys/socket.h"
 #include "arpa/inet.h"
 #include "Exceptions.hpp"
@@ -30,7 +49,7 @@ struct ConnData
 class ListenerThread : public ThreadFunctor
 {
 public:
-    ListenerThread(int port, const char* servIP, ServTCP* s);
+    ListenerThread(int port, ServTCP* s);
 
 private:
     void run();
@@ -44,15 +63,19 @@ class ConnectionThread : public ThreadFunctor
 {
 public:
     ConnectionThread(int tid, ServTCP* s);
+    osapi::MsgQueue* getMsgQueue(){return &connMQueue;}
 private:
     void run();
     std::string receiveMsg();
     int handleMessage(std::string msg);
+    int handleAuthorization();
+    int handleTreatRequest(int id);
+    int handleInfoSendRequest(int id);
     int sendMsg(std::string msg);
-    int authorizeDevice();
 
     int id;
     ServTCP* server;
+    osapi::MsgQueue connMQueue;
     const std::string auth = AUTH;
     const std::string treat = TREAT;
     const std::string info = INFO;

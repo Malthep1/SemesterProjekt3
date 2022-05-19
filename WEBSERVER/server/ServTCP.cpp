@@ -14,8 +14,8 @@ void ServTCP::run(){
 }
 
 int ServTCP::createListener(){
-    printf("creating listender\n");
-    ListenerThread* lt = new ListenerThread(startPort, IP, this);
+    printf("creating listener\n");
+    ListenerThread* lt = new ListenerThread(startPort, this);
     osapi::Thread* lthread = new Thread(lt, osapi::Thread::PRIORITY_ABOVE_NORMAL, "listener");
     threadPool->push_back(lthread);
     printf("listener created. starting\n");
@@ -48,7 +48,7 @@ int ServTCP::handleConnection(int fd){
     ConnectionThread* ct = new ConnectionThread(fd, this);
     osapi::Thread* cthread = new Thread(ct);
     threadPool->push_back(cthread);
-    printf("listener created. starting\n");
+    printf("New thread created. starting\n");
     cthread->start();
     
     return 0;
@@ -57,3 +57,20 @@ int ServTCP::handleConnection(int fd){
 MsgQueue* ServTCP::getMsgQueue(){
     return &tcpMq;
 }
+
+bool ServTCP::Authenticator::addNewUser(int id){
+    return true;
+}
+
+int ServTCP::Authenticator::findUser(int id){
+    return true;
+}
+
+bool ServTCP::Authenticator::readFile(){
+    return true;
+}
+
+bool ServTCP::Authenticator::appendToFile(){
+    return true;
+}
+
