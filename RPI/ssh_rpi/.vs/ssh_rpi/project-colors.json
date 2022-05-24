@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "dca1b7bd-ad15-4b85-881c-df1c14381561": {
+      "ProjectGuid": "dca1b7bd-ad15-4b85-881c-df1c14381561",
+      "DisplayName": "ssh_rpi",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
