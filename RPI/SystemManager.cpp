@@ -1,11 +1,25 @@
 #include "SystemManager.hpp"
 // 
-#define PATHNAME "/mnt/workspace/FoodGiver/branch_inot/SemesterProjekt3/RPI/dat/settings.dat"
+#define PATHNAME "/home/stud/git/SemesterProjekt3/RPI/dat/settings.dat"
 #define WATCH_FLAGS                 IN_CLOSE_WRITE
 #define EVENT_SIZE                  (sizeof(struct inotify_event))
 #define WATCH_DELAY_MS              100
 #define BUFFER_SIZE                 500
 
+void SystemManager::runMain(){
+    
+    while(true){
+        //cmdCtrl.dispatchCommand();
+        osapi::sleep(200);
+        cmdCtrl.dispatchUartCommand("W350");
+        cmdCtrl.dispatchUartCommand("W200");
+        cmdCtrl.dispatchUartCommand("F200");
+        cmdCtrl.dispatchUartCommand("F400");
+        cmdCtrl.dispatchUartCommand("T020");
+        cmdCtrl.dispatchUartCommand("F040");
+        break;
+    }
+}
 
 void SystemManager::listenSettingsUpdate(){
     ListenerThread listener_;   
@@ -28,7 +42,7 @@ void SystemManager::ListenerThread::run(){
 
     for(;;){
         length = read(inotify_fd, buffer, BUFFER_SIZE);
-        while(i < length){
+        while(i < length){  
             struct inotify_event* event = (struct inotify_event*) &buffer[i];
             // DEBUG:
             //Print the mask for debug and check with inotify.h 

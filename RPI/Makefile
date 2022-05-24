@@ -2,6 +2,7 @@
 SRCS=$(wildcard *.cpp)
 OBJS=$(SRCS:.cpp=.o)
 CXX=g++
+ARCH?=arm
 BASEPATH=../inc/OSApiStudent/
 LIBPATH=$(BASEPATH)lib/host/release/
 # Determine whether this is a debug build or not

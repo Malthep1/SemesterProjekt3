@@ -2,10 +2,10 @@
 
 /**
  * @file SystemManager.hpp
- * @author Marcin Szymanek (marcinwszymanek@gmail.com)
+ * @author Marcin Szymanek (marcinwszymanek@gmail.com) & Malthe Petersen(0.2)
  * @brief Prototype inotify thread to keep tabs on /dat/settings.dat file
- * @version 0.1
- * @date 2022-05-13
+ * @version 0.2
+ * @date 2022-05-24
  * 
  * For testing purposes the thread is ran and joined when SystemManager is created
  * The thread will print out a message every time a file has been written to and closed
@@ -35,9 +35,9 @@ struct Setting
 class SystemManager{
 public:
     SystemManager() : lt_(nullptr){
-        listenSettingsUpdate();
+        //listenSettingsUpdate();
     };
-
+    void runMain();
 private:
     //Settings Struct
     Setting currentSetting;
