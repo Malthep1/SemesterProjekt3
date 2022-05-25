@@ -2,7 +2,7 @@
 
 ARCH?=x86-64
 
-BINNAME=WeatherStation
+BINNAME=FoodgiverServer
 CXXFLAGS=-std=c++17 -DRESTINIO_USE_BOOST_ASIO=shared
 LDDFLAGS=
 
