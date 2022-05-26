@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed May 25 22:02:03 2022
+# Make data base, printed on Wed May 25 22:13:39 2022
 
 # Variables
 
@@ -17,13 +17,15 @@ GDK_BACKEND = x11
 # environment
 LC_ALL = C
 # environment
+NO_AT_BRIDGE = 1
+# environment
 SNAP_INSTANCE_KEY = 
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-acfc5689-fea4-4e63-8ce1-1fba64149879.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-88546956-dd3d-435a-951f-fc43894d00b3.sock
 # environment
 MANDATORY_PATH = /usr/share/gconf/Lubuntu.mandatory.path
 # environment
-VSCODE_CWD = /home/stud/git/SemesterProjekt3/RPI
+VSCODE_CWD = /home/stud/git/SemesterProjekt3
 # environment
 GDM_LANG = en_US
 # default
@@ -41,13 +43,13 @@ VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # default
 .VARIABLES := 
 # environment
-PWD = /home/stud/git/SemesterProjekt3/RPI
+PWD = /home/stud/git/SemesterProjekt3
 # automatic
 %D = $(patsubst %/,%,$(dir $%))
 # environment
 XDG_DATA_DIRS = /usr/share/Lubuntu:/usr/local/share:/usr/share:/var/lib/snapd/desktop:/var/lib/snapd/desktop
 # environment
-OLDPWD = /home/stud/git/SemesterProjekt3
+OLDPWD = /home/stud/git/SemesterProjekt3/RPI
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
 # environment
@@ -71,7 +73,7 @@ MAKEFLAGS = pqrR
 # environment
 SDKTARGETSYSROOT = /opt/poky/3.1.4/sysroots/arm1176jzfshf-vfp-poky-linux-gnueabi
 # makefile
-CURDIR := /home/stud/git/SemesterProjekt3/RPI
+CURDIR := /home/stud/git/SemesterProjekt3
 # environment
 VSCODE_PIPE_LOGGING = true
 # environment
@@ -80,8 +82,6 @@ J2REDIR = /usr/lib/jvm/java-9-oracle
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # environment
 LESSOPEN = | /usr/bin/lesspipe %s
-# makefile (from 'Makefile', line 2)
-SRCS = $(wildcard *.cpp)
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
@@ -96,8 +96,8 @@ XDG_CONFIG_DIRS = /etc/xdg/xdg-Lubuntu:/etc/xdg:/etc:/usr/share
 +D = $(patsubst %/,%,$(dir $+))
 # environment
 XDG_SESSION_DESKTOP = Lubuntu
-# makefile (from 'Makefile', line 1)
-MAKEFILE_LIST := Makefile
+# makefile
+MAKEFILE_LIST := 
 # environment
 SNAP_REEXEC = 
 # automatic
@@ -122,16 +122,12 @@ QT_QPA_PLATFORMTHEME = lxqt
 CHROME_DESKTOP = code-url-handler.desktop
 # environment
 DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
-# makefile (from 'Makefile', line 7)
-LIBPATH = $(BASEPATH)lib/host/release/
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
-# makefile (from 'Makefile', line 3)
-OBJS = $(SRCS:.cpp=.o)
 # environment
 LXQT_SESSION_CONFIG = session
 # makefile
@@ -164,8 +160,6 @@ XDG_CONFIG_HOME = /home/stud/.config
 SNAP_REVISION = 97
 # environment
 SNAP_REAL_HOME = /home/stud
-# makefile (from 'Makefile', line 6)
-BASEPATH = ../inc/OSApiStudent/
 # environment
 VSCODE_LOG_NATIVE = false
 # environment
@@ -203,9 +197,7 @@ SNAP_ARCH = amd64
 # environment
 XDG_VTNR = 7
 # makefile
-.DEFAULT_GOAL := CommandController.o
-# makefile (from 'Makefile', line 5)
-ARCH = arm
+.DEFAULT_GOAL := 
 # environment
 DISPLAY = :0
 # environment
@@ -268,19 +260,12 @@ VSCODE_CLI = 1
 ELECTRON_NO_ATTACH_CONSOLE = 1
 # environment
 VTE_VERSION = 6402
-# makefile (from 'Makefile', line 16)
-LNKFLAGS = -L$(LIBPATH) -lOSApi -lrt -lpthread
 # environment
 SNAP_COMMON = /var/snap/code/common
-# makefile (from 'Makefile', line 15)
-CXXFLAGS = -O2 -DOS_LINUX -I$(BASEPATH)inc
 # environment
- 
 XDG_GREETER_DATA_DIR = /var/lib/lightdm-data/stud
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink load
-# makefile (from 'Makefile', line 4)
-CXX = g++
 # environment
 SNAP_USER_DATA = /home/stud/snap/code/97
 # environment
@@ -292,7 +277,10 @@ GDMSESSION = Lubuntu
 # environment
 SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd/void
 # variable set hash-table stats:
-# Load=140/1024=14%, Rehash=0, Collisions=16/185=9%
+ 
+make: *** No rule to make target 'all'.  Stop.
+
+# Load=133/1024=13%, Rehash=0, Collisions=7/160=4%
 
 # Pattern-specific Variable Values
 
@@ -300,9 +288,9 @@ SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd
 
 # Directories
 
-# . (device 2049, inode 52007): 21 files, no impossibilities.
+# . (device 2049, inode 51987): 11 files, no impossibilities.
 
-# 21 files, no impossibilities in 1 directories.
+# 11 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -311,39 +299,11 @@ SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd
 # Files
 
 # Not a target:
-PsocComm.cpp:
-#  Implicit rule search has been done.
-#  Last modified 2022-05-25 21:58:43.287624036
-#  File has been updated.
-#  Successfully updated.
-
-# Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-05-24 10:58:24.050313232
+#  File does not exist.
 #  File has been updated.
-#  Successfully updated.
-
-# Not a target:
-CommandController.cpp:
-#  Implicit rule search has been done.
-#  Last modified 2022-05-25 22:00:47.220107459
-#  File has been updated.
-#  Successfully updated.
-
-clean:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 29):
-	rm -f *.o main
-
-RPIUart.o: CommandController.cpp PsocComm.cpp RPIUart.cpp SystemManager.cpp testListenSettings.cpp
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 19):
-	$(CXX) $(CXXFLAGS) -c $@ $^
+#  Failed to be updated.
 
 # Not a target:
 .DEFAULT:
@@ -351,114 +311,41 @@ RPIUart.o: CommandController.cpp PsocComm.cpp RPIUart.cpp SystemManager.cpp test
 #  Modification time never checked.
 #  File has not been updated.
 
-all: main
+# Not a target:
+all:
 #  Command line target.
 #  Implicit rule search has been done.
 #  File does not exist.
-#  File has been updated.
-#  Needs to be updated (-q is set).
-# variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/6=0%
-
-main: CommandController.o PsocComm.o RPIUart.o SystemManager.o testListenSettings.o
-#  Implicit rule search has not been done.
-#  Last modified 2022-05-25 21:59:18.132044771
-#  File has been updated.
-#  Needs to be updated (-q is set).
-# variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/6=0%
-#  recipe to execute (from 'Makefile', line 23):
-	$(CXX) -o main $(OBJS) $(LNKFLAGS)
-
-CommandController.o: CommandController.cpp PsocComm.cpp RPIUart.cpp SystemManager.cpp testListenSettings.cpp
-#  Implicit rule search has not been done.
-#  Implicit/static pattern stem: ''
-#  Last modified 2022-05-25 21:59:16.755412825
-#  File has been updated.
-#  Needs to be updated (-q is set).
-# automatic
-# @ := CommandController.o
-# automatic
-# * := 
-# automatic
-# < := CommandController.cpp
-# automatic
-# + := CommandController.cpp PsocComm.cpp RPIUart.cpp SystemManager.cpp testListenSettings.cpp
-# automatic
-# % := 
-# automatic
-# ^ := CommandController.cpp PsocComm.cpp RPIUart.cpp SystemManager.cpp testListenSettings.cpp
-# automatic
-# ? := CommandController.cpp
-# automatic
-# | := 
-# variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=6/16=38%
-#  recipe to execute (from 'Makefile', line 19):
-	$(CXX) $(CXXFLAGS) -c $@ $^
-
-SystemManager.o: CommandController.cpp PsocComm.cpp RPIUart.cpp SystemManager.cpp testListenSettings.cpp
-#  Implicit rule search has not been done.
-#  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 19):
-	$(CXX) $(CXXFLAGS) -c $@ $^
 
 # Not a target:
-SystemManager.cpp:
+makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-05-25 21:57:17.67340414
+#  File does not exist.
 #  File has been updated.
-#  Successfully updated.
-
-testListenSettings.o: CommandController.cpp PsocComm.cpp RPIUart.cpp SystemManager.cpp testListenSettings.cpp
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 19):
-	$(CXX) $(CXXFLAGS) -c $@ $^
+#  Failed to be updated.
 
 # Not a target:
-RPIUart.cpp:
+GNUmakefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-05-24 13:36:52.798161038
+#  File does not exist.
 #  File has been updated.
-#  Successfully updated.
-
-# Not a target:
-.SUFFIXES:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
-testListenSettings.cpp:
-#  Implicit rule search has been done.
-#  Last modified 2022-05-24 11:57:32.193493099
-#  File has been updated.
-#  Successfully updated.
-
-PsocComm.o: CommandController.cpp PsocComm.cpp RPIUart.cpp SystemManager.cpp testListenSettings.cpp
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 19):
-	$(CXX) $(CXXFLAGS) -c $@ $^
+#  Failed to be updated.
 
 # files hash-table stats:
-# Load=16/1024=2%, Rehash=0, Collisions=0/39=0%
+# Load=6/1024=1%, Rehash=0, Collisions=0/15=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 27 / storage = 331 B / avg = 12 B
-# current buf: size = 8162 B / used = 331 B / count = 27 / avg = 12 B
+# strcache buffers: 1 (0) / strings = 19 / storage = 150 B / avg = 7 B
+# current buf: size = 8162 B / used = 150 B / count = 19 / avg = 7 B
 
-# strcache performance: lookups = 58 / hit rate = 53%
+# strcache performance: lookups = 22 / hit rate = 13%
 # hash-table stats:
-# Load=27/8192=0%, Rehash=0, Collisions=0/58=0%
-# Finished Make data base on Wed May 25 22:02:03 2022
+# Load=19/8192=0%, Rehash=0, Collisions=0/22=0%
+# Finished Make data base on Wed May 25 22:13:39 2022
 
  

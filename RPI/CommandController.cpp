@@ -11,7 +11,7 @@ void CommandController::handleCommand(osapi::Message* msg, unsigned long id){
     if(cmsg->response == "SACKE"){
         std::cout << "SACKE HIT\n";
         //ACK
-    }
+    }   
     else if(cmsg->response == "SNACKE"){
         std::cout << "SNACKE HIT\n";
         dispatchUartCommand("RE");
@@ -39,7 +39,7 @@ void CommandController::handleCommand(osapi::Message* msg, unsigned long id){
     }
     else if(cmsg->response == "STDE"){
         std::cout << "TD HIT\n";
-        //Denied, do nothing?? 
+        //Denied, do nothing??
     }
     else{
         std::cout << "ERROR, returning NACK\n";
@@ -53,6 +53,14 @@ void CommandController::setupCommunicationModules(){
 
 void CommandController::dispatchUartCommand(string s){
     PsocComm::getInstance().sendCommand(s);
+}
+
+void CommandController::requestTreat(){
+    web_.postTreatRequest(420);
+}
+
+void CommandController::getTreatRequestAnswer(){
+    web_.createWebCommListenerThread(getMessageQueue());
 }
 
 void CommandController::dispatchCommand(){

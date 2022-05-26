@@ -26,7 +26,7 @@ struct UartString : public osapi::Message{
 class PsocComm{
 public:
     static PsocComm& getInstance(); // Returns instance of PsocComm, SINGLETON PATTERN
-    Thread* createPsocCommListenerThread(MsgQueue* msgQueue);
+    void createPsocCommListenerThread(MsgQueue* msgQueue);
     void sendCommand(string s);
 private:
     PsocComm(){}; //Can only be instantiated from inside the class.

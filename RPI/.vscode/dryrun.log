@@ -1,5 +1,5 @@
-make --dry-run --keep-going --print-directory
+make --dry-run --always-make --keep-going --print-directory
 make: Entering directory '/home/stud/git/SemesterProjekt3/RPI'
-make: 'CommandController.o' is up to date.
+g++ -O2 -DOS_LINUX -I../inc/OSApiStudent/inc -c CommandController.o CommandController.cpp PsocComm.cpp RPIUart.cpp SystemManager.cpp testListenSettings.cpp
 make: Leaving directory '/home/stud/git/SemesterProjekt3/RPI'
  

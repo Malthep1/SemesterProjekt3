@@ -10,6 +10,7 @@
 
 //#include "WebComm.hpp"   TODO WHEN IMPLEMENTED
 #include "PsocComm.hpp"
+#include "WebComm.hpp"
 #include <osapi/Thread.hpp>
 #include <osapi/ThreadFunctor.hpp>
 #include <osapi/MsgQueue.hpp>
@@ -26,26 +27,24 @@ struct uartString : public osapi::Message{
     std::string* response; 
 };
 
-struct webString : public osapi::Message{
-    std::string* response; 
-};
-
 
 class CommandController{
 public:
     CommandController() : msgQueue_(10){
-        std::cout << "COMMANDCONTROLLER ONLINE\n";
-        setupCommunicationModules();
+        std::cout << "Command Controller Online\n";
     };
     //Checks msqQueue, dispatches command if present
     void dispatchCommand();
     //For dispatching command directly from sys manager
     void dispatchUartCommand(string s);
     MsgQueue * getMessageQueue();
-private:
     void setupCommunicationModules();
+    void requestTreat();
+    void getTreatRequestAnswer();
+private:
     void handleCommand(Message* msg, unsigned long id);
     unsigned long id;
     MsgQueue msgQueue_;
-    //WebComm web_;
+    Thread * pclt;
+    WebComm web_;
 };

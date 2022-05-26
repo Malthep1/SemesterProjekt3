@@ -5,12 +5,14 @@ PsocComm& PsocComm::getInstance(){
         return instance;
 }
 
-Thread* PsocComm::createPsocCommListenerThread(MsgQueue* msgQueue){
+void PsocComm::createPsocCommListenerThread(MsgQueue* msgQueue){
     PsocListenerThread lt(msgQueue);
-    Thread* thread_listener = new Thread(&lt);
+    Thread* thread_listener = new Thread(&lt); 
     thread_listener->start();
-    thread_listener->join();
-    return thread_listener;
+    std::cout << "created\n";
+    //thread_listener->detach();
+    std::cout << "detached\n";
+    sleep(1);
 }
 void PsocComm::PsocListenerThread::handleUart(std::string uartString){
     UartString* msg = new UartString;
@@ -31,24 +33,42 @@ void PsocComm::PsocListenerThread::handleUart(std::string uartString){
     else if(uartString == "STLOWE"){
         msgQueue_->send(TLOW, msg);
     }
+    else if(uartString == "STRE"){
+        msgQueue_->send(TLOW, msg);
+    }
 }
 
 void PsocComm::PsocListenerThread::run(){
-    std::cout << "PSOC LISTENER THREAD ONLINE \n";
-    //while(true){
+    std:: cout << "Started\n";
+    string uartInc("SACKE");
+    //osapi::sleep(500);
+    //handleUart(uartInc);
+    while(true){
         //string uartInc = waitForUartComm();
-        string uartInc("SACKE");
         handleUart(uartInc);
+        sleep(4);
+        std::cout << "PSOC INC\n";
         uartInc = "SNACKE";
         handleUart(uartInc);
-        uartInc = "SWLOWE";
-        handleUart(uartInc);
-        uartInc = "SFLOWE";
-        handleUart(uartInc);
+        sleep(4);
+        std::cout << "PSOC INC\n";
         uartInc = "STLOWE";
         handleUart(uartInc);
-    //    osapi::sleep(20000);
-    //}
+        sleep(4);
+        std::cout << "PSOC INC\n";
+        uartInc = "SFLOWE";
+        handleUart(uartInc);
+        sleep(4);
+        std::cout << "PSOC INC\n";
+        uartInc = "SWLOWE";
+        handleUart(uartInc);
+        sleep(4);
+        std::cout << "PSOC INC\n";
+        uartInc = "STRE";
+        handleUart(uartInc);
+        sleep(4);
+        std::cout << "PSOC INC\n";
+    }
 }
 
 void PsocComm::sendCommand(string s){
@@ -89,7 +109,7 @@ string PsocComm::PsocListenerThread::waitForUartComm(){
         if(incomming != NULL && incomming[0] != '\0'){
             commandReceived++;
         }
-        osapi::sleep(5000);
+        sleep(5000);
     }
     const char * constPtr = (const char*) incomming;
     std::string returnstring(constPtr);

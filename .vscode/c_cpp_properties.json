@@ -3,10 +3,7 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**",
-                "/home/stud/git/SemesterProjekt3/inc/OSApiStudent/inc",
-                "/home/stud/git/SemesterProjekt3/inc/OSApiStudent/inc",
-                "/home/stud/git/SemesterProjekt3/inc/OSApiStudent/inc"
+                "${workspaceFolder}/**"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang-12",
