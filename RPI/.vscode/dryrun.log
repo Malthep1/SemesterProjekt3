@@ -1,5 +1,44 @@
 make --dry-run --always-make --keep-going --print-directory
-make: Entering directory '/home/stud/git/SemesterProjekt3/RPI'
-g++ -O2 -DOS_LINUX -I../inc/OSApiStudent/inc -c CommandController.o CommandController.cpp PsocComm.cpp RPIUart.cpp SystemManager.cpp testListenSettings.cpp
-make: Leaving directory '/home/stud/git/SemesterProjekt3/RPI'
+make: Entering directory '/mnt/workspace/FoodGiver/Malthe/SemesterProjekt3/RPI'
+arm-rpizw-g++ -MTbuild/arm/testListenSettings.d -MM -DOS_LINUX -I../inc/OSApiStudent/inc testListenSettings.cpp > build/arm/testListenSettings.d
+ 
+arm-rpizw-g++ -MTbuild/arm/testListenSettings.o -MM -DOS_LINUX -I../inc/OSApiStudent/inc testListenSettings.cpp >> build/arm/testListenSettings.d
+ 
+arm-rpizw-g++ -MTbuild/arm/WebComm.d -MM -DOS_LINUX -I../inc/OSApiStudent/inc WebComm.cpp > build/arm/WebComm.d
+ 
+arm-rpizw-g++ -MTbuild/arm/WebComm.o -MM -DOS_LINUX -I../inc/OSApiStudent/inc WebComm.cpp >> build/arm/WebComm.d
+ 
+arm-rpizw-g++ -MTbuild/arm/SystemManager.d -MM -DOS_LINUX -I../inc/OSApiStudent/inc SystemManager.cpp > build/arm/SystemManager.d
+ 
+arm-rpizw-g++ -MTbuild/arm/SystemManager.o -MM -DOS_LINUX -I../inc/OSApiStudent/inc SystemManager.cpp >> build/arm/SystemManager.d
+ 
+arm-rpizw-g++ -MTbuild/arm/RPIUart.d -MM -DOS_LINUX -I../inc/OSApiStudent/inc RPIUart.cpp > build/arm/RPIUart.d
+ 
+arm-rpizw-g++ -MTbuild/arm/RPIUart.o -MM -DOS_LINUX -I../inc/OSApiStudent/inc RPIUart.cpp >> build/arm/RPIUart.d
+ 
+arm-rpizw-g++ -MTbuild/arm/PsocComm.d -MM -DOS_LINUX -I../inc/OSApiStudent/inc PsocComm.cpp > build/arm/PsocComm.d
+ 
+arm-rpizw-g++ -MTbuild/arm/PsocComm.o -MM -DOS_LINUX -I../inc/OSApiStudent/inc PsocComm.cpp >> build/arm/PsocComm.d
+ 
+arm-rpizw-g++ -MTbuild/arm/CommandController.d -MM -DOS_LINUX -I../inc/OSApiStudent/inc CommandController.cpp > build/arm/CommandController.d
+ 
+arm-rpizw-g++ -MTbuild/arm/CommandController.o -MM -DOS_LINUX -I../inc/OSApiStudent/inc CommandController.cpp >> build/arm/CommandController.d
+ 
+arm-rpizw-g++ -DOS_LINUX -I../inc/OSApiStudent/inc -c CommandController.cpp -o build/arm/CommandController.o -L../inc/OSApiStudent/lib/target/release/ -lOSApi -lrt -lpthread
+ 
+arm-rpizw-g++ -DOS_LINUX -I../inc/OSApiStudent/inc -c PsocComm.cpp -o build/arm/PsocComm.o -L../inc/OSApiStudent/lib/target/release/ -lOSApi -lrt -lpthread
+ 
+arm-rpizw-g++ -DOS_LINUX -I../inc/OSApiStudent/inc -c RPIUart.cpp -o build/arm/RPIUart.o -L../inc/OSApiStudent/lib/target/release/ -lOSApi -lrt -lpthread
+ 
+arm-rpizw-g++ -DOS_LINUX -I../inc/OSApiStudent/inc -c SystemManager.cpp -o build/arm/SystemManager.o -L../inc/OSApiStudent/lib/target/release/ -lOSApi -lrt -lpthread
+ 
+arm-rpizw-g++ -DOS_LINUX -I../inc/OSApiStudent/inc -c WebComm.cpp -o build/arm/WebComm.o -L../inc/OSApiStudent/lib/target/release/ -lOSApi -lrt -lpthread
+ 
+arm-rpizw-g++ -DOS_LINUX -I../inc/OSApiStudent/inc -c testListenSettings.cpp -o build/arm/testListenSettings.o -L../inc/OSApiStudent/lib/target/release/ -lOSApi -lrt -lpthread
+ 
+arm-rpizw-g++ -DOS_LINUX -I../inc/OSApiStudent/inc -o build/arm/prog build/arm/CommandController.o build/arm/PsocComm.o build/arm/RPIUart.o build/arm/SystemManager.o build/arm/WebComm.o build/arm/testListenSettings.o  -L../inc/OSApiStudent/lib/target/release/ -lOSApi -lrt -lpthread
+ 
+echo build/arm/prog
+ 
+make: Leaving directory '/mnt/workspace/FoodGiver/Malthe/SemesterProjekt3/RPI'
  

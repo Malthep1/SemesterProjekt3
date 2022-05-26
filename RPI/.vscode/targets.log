@@ -1,4 +1,6 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+make: *** No rule to make target 'all'.  Stop.
+
 # GNU Make 4.3
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2020 Free Software Foundation, Inc.
@@ -6,7 +8,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed May 25 22:02:03 2022
+# Make data base, printed on Thu May 26 16:33:01 2022
 
 # Variables
 
@@ -19,11 +21,11 @@ LC_ALL = C
 # environment
 SNAP_INSTANCE_KEY = 
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-acfc5689-fea4-4e63-8ce1-1fba64149879.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-30344ab3-a67d-4ba3-8f21-d87c6b555844.sock
 # environment
 MANDATORY_PATH = /usr/share/gconf/Lubuntu.mandatory.path
 # environment
-VSCODE_CWD = /home/stud/git/SemesterProjekt3/RPI
+VSCODE_CWD = /mnt/workspace/FoodGiver/Malthe/SemesterProjekt3/RPI
 # environment
 GDM_LANG = en_US
 # default
@@ -41,13 +43,13 @@ VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # default
 .VARIABLES := 
 # environment
-PWD = /home/stud/git/SemesterProjekt3/RPI
+PWD = /mnt/workspace/FoodGiver/Malthe/SemesterProjekt3/RPI
 # automatic
 %D = $(patsubst %/,%,$(dir $%))
 # environment
 XDG_DATA_DIRS = /usr/share/Lubuntu:/usr/local/share:/usr/share:/var/lib/snapd/desktop:/var/lib/snapd/desktop
 # environment
-OLDPWD = /home/stud/git/SemesterProjekt3
+OLDPWD = /mnt/workspace/FoodGiver/Malthe/SemesterProjekt3
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
 # environment
@@ -71,7 +73,7 @@ MAKEFLAGS = pqrR
 # environment
 SDKTARGETSYSROOT = /opt/poky/3.1.4/sysroots/arm1176jzfshf-vfp-poky-linux-gnueabi
 # makefile
-CURDIR := /home/stud/git/SemesterProjekt3/RPI
+CURDIR := /mnt/workspace/FoodGiver/Malthe/SemesterProjekt3/RPI
 # environment
 VSCODE_PIPE_LOGGING = true
 # environment
@@ -80,8 +82,6 @@ J2REDIR = /usr/lib/jvm/java-9-oracle
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # environment
 LESSOPEN = | /usr/bin/lesspipe %s
-# makefile (from 'Makefile', line 2)
-SRCS = $(wildcard *.cpp)
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
@@ -96,8 +96,8 @@ XDG_CONFIG_DIRS = /etc/xdg/xdg-Lubuntu:/etc/xdg:/etc:/usr/share
 +D = $(patsubst %/,%,$(dir $+))
 # environment
 XDG_SESSION_DESKTOP = Lubuntu
-# makefile (from 'Makefile', line 1)
-MAKEFILE_LIST := Makefile
+# makefile (from 'build/arm/testListenSettings.d', line 1)
+MAKEFILE_LIST := Makefile build/arm/CommandController.d build/arm/PsocComm.d build/arm/RPIUart.d build/arm/SystemManager.d build/arm/WebComm.d build/arm/testListenSettings.d
 # environment
 SNAP_REEXEC = 
 # automatic
@@ -105,7 +105,7 @@ SNAP_REEXEC =
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 8133
+VSCODE_PID = 40355
 # environment
 XDG_SESSION_TYPE = x11
 # automatic
@@ -122,16 +122,14 @@ QT_QPA_PLATFORMTHEME = lxqt
 CHROME_DESKTOP = code-url-handler.desktop
 # environment
 DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
-# makefile (from 'Makefile', line 7)
-LIBPATH = $(BASEPATH)lib/host/release/
+# makefile (from 'Makefile', line 9)
+LIBPATH = $(BASEPATH)lib/target/release/
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
-# makefile (from 'Makefile', line 3)
-OBJS = $(SRCS:.cpp=.o)
 # environment
 LXQT_SESSION_CONFIG = session
 # makefile
@@ -145,7 +143,7 @@ MAKELEVEL := 0
 # default
 MAKE = $(MAKE_COMMAND)
 # environment
-SNAP_COOKIE = vhYdaYvWEQXlvpwFT43ln8Ql51day5GwGnaG9sldw0zkY2ea5JQu
+SNAP_COOKIE = ue37T7kGrfh4jxUU94QZPDRv-OLcPwc5W2Lb1goDpyEzyWYqpNN2
 # environment
 PATH = /opt/poky/3.1.4/sysroots/x86_64-pokysdk-linux/usr/bin/arm-poky-linux-gnueabi:/home/stud/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/lib/jvm/java-9-oracle/bin:/usr/lib/jvm/java-9-oracle/db/bin:/home/stud/bin
 # default
@@ -164,7 +162,7 @@ XDG_CONFIG_HOME = /home/stud/.config
 SNAP_REVISION = 97
 # environment
 SNAP_REAL_HOME = /home/stud
-# makefile (from 'Makefile', line 6)
+# makefile (from 'Makefile', line 8)
 BASEPATH = ../inc/OSApiStudent/
 # environment
 VSCODE_LOG_NATIVE = false
@@ -188,6 +186,8 @@ XDG_SEAT_PATH = /org/freedesktop/DisplayManager/Seat0
 DESKTOP_SESSION = Lubuntu
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = LXQt
+# makefile (from 'Makefile', line 3)
+OBJECTS = $(addprefix $(BUILD_DIR)/,$(SOURCES:.cpp=.o)) 
 # 'override' directive
 GNUMAKEFLAGS := 
 # environment
@@ -198,13 +198,15 @@ LOGNAME = stud
 SAL_VCL_QT5_USE_CAIRO = true
 # environment
 SMARTGIT_JAVA_HOME = /usr/bin/java
+# makefile (from 'Makefile', line 5)
+EXE = prog
 # environment
 SNAP_ARCH = amd64
 # environment
 XDG_VTNR = 7
 # makefile
-.DEFAULT_GOAL := CommandController.o
-# makefile (from 'Makefile', line 5)
+.DEFAULT_GOAL := build/arm/prog
+# makefile (from 'Makefile', line 7)
 ARCH = arm
 # environment
 DISPLAY = :0
@@ -219,7 +221,7 @@ DISABLE_WAYLAND = 1
 # environment
 SNAP_DATA = /var/snap/code/97
 # environment
-SNAP_CONTEXT = vhYdaYvWEQXlvpwFT43ln8Ql51day5GwGnaG9sldw0zkY2ea5JQu
+SNAP_CONTEXT = ue37T7kGrfh4jxUU94QZPDRv-OLcPwc5W2Lb1goDpyEzyWYqpNN2
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
@@ -236,6 +238,8 @@ QT_PLATFORM_PLUGIN = lxqt
 XDG_SESSION_CLASS = user
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# makefile (from 'Makefile', line 21)
+BUILD_DIR = build/arm
 # environment
 HOME = /home/stud
 # environment
@@ -256,6 +260,8 @@ XDG_SESSION_ID = c2
 .RECIPEPREFIX := 
 # automatic
 <F = $(notdir $<)
+# makefile (from 'Makefile', line 4)
+DEPS = $(addprefix $(BUILD_DIR)/,$(SOURCES:.cpp=.d))    
 # environment
 SNAP_VERSION = c3511e6c
 # default
@@ -268,19 +274,21 @@ VSCODE_CLI = 1
 ELECTRON_NO_ATTACH_CONSOLE = 1
 # environment
 VTE_VERSION = 6402
-# makefile (from 'Makefile', line 16)
+# makefile (from 'Makefile', line 10)
 LNKFLAGS = -L$(LIBPATH) -lOSApi -lrt -lpthread
 # environment
-SNAP_COMMON = /var/snap/code/common
-# makefile (from 'Makefile', line 15)
-CXXFLAGS = -O2 -DOS_LINUX -I$(BASEPATH)inc
-# environment
  
+SNAP_COMMON = /var/snap/code/common
+# makefile (from 'Makefile', line 6)
+CXXFLAGS = -DOS_LINUX -I$(BASEPATH)inc
+# environment
 XDG_GREETER_DATA_DIR = /var/lib/lightdm-data/stud
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink load
-# makefile (from 'Makefile', line 4)
-CXX = g++
+# makefile (from 'Makefile', line 20)
+CXX = arm-rpizw-g++
+# makefile (from 'Makefile', line 2)
+SOURCES = $(wildcard *.cpp)
 # environment
 SNAP_USER_DATA = /home/stud/snap/code/97
 # environment
@@ -292,7 +300,7 @@ GDMSESSION = Lubuntu
 # environment
 SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd/void
 # variable set hash-table stats:
-# Load=140/1024=14%, Rehash=0, Collisions=16/185=9%
+# Load=143/1024=14%, Rehash=0, Collisions=8/202=4%
 
 # Pattern-specific Variable Values
 
@@ -300,34 +308,166 @@ SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd
 
 # Directories
 
-# . (device 2049, inode 52007): 21 files, no impossibilities.
+# . (device 64768, inode 287486): 19 files, no impossibilities.
 
-# 21 files, no impossibilities in 1 directories.
+# 19 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
-# No implicit rules.
+build/arm/%.o: %.cpp
+#  recipe to execute (from 'Makefile', line 28):
+	$(CXX) $(CXXFLAGS) -c $< -o $@ $(LNKFLAGS)
 
+build/arm/%.d: %.cpp
+#  recipe to execute (from 'Makefile', line 32):
+	$(CXX) -MT$@ -MM $(CXXFLAGS) $< > $@
+	$(CXX) -MT$(@:.d=.o) -MM $(CXXFLAGS) $< >> $@
+
+# 2 implicit rules, 0 (0.0%) terminal.
 # Files
 
-# Not a target:
-PsocComm.cpp:
+build/arm/WebComm.d: WebComm.cpp WebComm.cpp WebComm.hpp ../inc/OSApiStudent/inc/osapi/Thread.hpp ../inc/OSApiStudent/inc/osapi/linux/Thread.hpp ../inc/OSApiStudent/inc/osapi/ThreadError.hpp ../inc/OSApiStudent/inc/osapi/Exceptions.hpp ../inc/OSApiStudent/inc/osapi/ThreadFunctor.hpp ../inc/OSApiStudent/inc/osapi/linux/ThreadFunctor.hpp ../inc/OSApiStudent/inc/osapi/Completion.hpp ../inc/OSApiStudent/inc/osapi/Conditional.hpp ../inc/OSApiStudent/inc/osapi/Utility.hpp ../inc/OSApiStudent/inc/osapi/linux/Conditional.hpp ../inc/OSApiStudent/inc/osapi/Mutex.hpp ../inc/OSApiStudent/inc/osapi/MutexError.hpp ../inc/OSApiStudent/inc/osapi/linux/Mutex.hpp ../inc/OSApiStudent/inc/osapi/ConditionalError.hpp ../inc/OSApiStudent/inc/osapi/MsgQueue.hpp ../inc/OSApiStudent/inc/osapi/Message.hpp HTTPRequest.hpp
 #  Implicit rule search has been done.
-#  Last modified 2022-05-25 21:58:43.287624036
+#  Implicit/static pattern stem: 'WebComm'
+#  Last modified 2022-05-26 16:32:56.79877883
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 32):
+	$(CXX) -MT$@ -MM $(CXXFLAGS) $< > $@
+	$(CXX) -MT$(@:.d=.o) -MM $(CXXFLAGS) $< >> $@
+
+# Not a target:
+../inc/OSApiStudent/inc/osapi/Utility.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-26 16:32:01.493301414
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
+RPIUart.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-26 16:32:01.485312946
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+HTTPRequest.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-26 16:32:01.485312946
+#  File has been updated.
+#  Successfully updated.
+
+build/arm/RPIUart.d: RPIUart.cpp RPIUart.cpp RPIUart.hpp
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'RPIUart'
+#  Last modified 2022-05-26 16:32:58.51013424
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 32):
+	$(CXX) -MT$@ -MM $(CXXFLAGS) $< > $@
+	$(CXX) -MT$(@:.d=.o) -MM $(CXXFLAGS) $< >> $@
+
+# Not a target:
+../inc/OSApiStudent/inc/osapi/Mutex.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-26 16:32:01.48930718
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+PsocComm.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-26 16:32:01.485312946
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+SystemManager.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-26 16:32:01.485312946
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+../inc/OSApiStudent/inc/osapi/Completion.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-26 16:32:01.48930718
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+PsocComm.cpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-26 16:32:01.485312946
+#  File has been updated.
+#  Successfully updated.
+
+build/arm/SystemManager.d: SystemManager.cpp SystemManager.cpp SystemManager.hpp CommandController.hpp PsocComm.hpp RPIUart.hpp ../inc/OSApiStudent/inc/osapi/Thread.hpp ../inc/OSApiStudent/inc/osapi/linux/Thread.hpp ../inc/OSApiStudent/inc/osapi/ThreadError.hpp ../inc/OSApiStudent/inc/osapi/Exceptions.hpp ../inc/OSApiStudent/inc/osapi/ThreadFunctor.hpp ../inc/OSApiStudent/inc/osapi/linux/ThreadFunctor.hpp ../inc/OSApiStudent/inc/osapi/Completion.hpp ../inc/OSApiStudent/inc/osapi/Conditional.hpp ../inc/OSApiStudent/inc/osapi/Utility.hpp ../inc/OSApiStudent/inc/osapi/linux/Conditional.hpp ../inc/OSApiStudent/inc/osapi/Mutex.hpp ../inc/OSApiStudent/inc/osapi/MutexError.hpp ../inc/OSApiStudent/inc/osapi/linux/Mutex.hpp ../inc/OSApiStudent/inc/osapi/ConditionalError.hpp ../inc/OSApiStudent/inc/osapi/MsgQueue.hpp ../inc/OSApiStudent/inc/osapi/Message.hpp WebComm.hpp HTTPRequest.hpp
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'SystemManager'
+#  Last modified 2022-05-26 16:32:58.1917485
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 32):
+	$(CXX) -MT$@ -MM $(CXXFLAGS) $< > $@
+	$(CXX) -MT$(@:.d=.o) -MM $(CXXFLAGS) $< >> $@
+
+build/arm/SystemManager.o: SystemManager.cpp SystemManager.hpp CommandController.hpp PsocComm.hpp RPIUart.hpp ../inc/OSApiStudent/inc/osapi/Thread.hpp ../inc/OSApiStudent/inc/osapi/linux/Thread.hpp ../inc/OSApiStudent/inc/osapi/ThreadError.hpp ../inc/OSApiStudent/inc/osapi/Exceptions.hpp ../inc/OSApiStudent/inc/osapi/ThreadFunctor.hpp ../inc/OSApiStudent/inc/osapi/linux/ThreadFunctor.hpp ../inc/OSApiStudent/inc/osapi/Completion.hpp ../inc/OSApiStudent/inc/osapi/Conditional.hpp ../inc/OSApiStudent/inc/osapi/Utility.hpp ../inc/OSApiStudent/inc/osapi/linux/Conditional.hpp ../inc/OSApiStudent/inc/osapi/Mutex.hpp ../inc/OSApiStudent/inc/osapi/MutexError.hpp ../inc/OSApiStudent/inc/osapi/linux/Mutex.hpp ../inc/OSApiStudent/inc/osapi/ConditionalError.hpp ../inc/OSApiStudent/inc/osapi/MsgQueue.hpp ../inc/OSApiStudent/inc/osapi/Message.hpp WebComm.hpp HTTPRequest.hpp
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-05-24 10:58:24.050313232
+#  Last modified 2022-05-26 16:32:01.485312946
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+../inc/OSApiStudent/inc/osapi/Conditional.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-26 16:32:01.48930718
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 CommandController.cpp:
 #  Implicit rule search has been done.
-#  Last modified 2022-05-25 22:00:47.220107459
+#  Last modified 2022-05-26 16:32:01.485312946
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+../inc/OSApiStudent/inc/osapi/Message.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-26 16:32:01.48930718
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+WebComm.cpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-26 16:32:01.485312946
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+../inc/OSApiStudent/inc/osapi/ConditionalError.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-26 16:32:01.48930718
+#  File has been updated.
+#  Successfully updated.
+
+build/arm/testListenSettings.o: testListenSettings.cpp SystemManager.hpp CommandController.hpp PsocComm.hpp RPIUart.hpp ../inc/OSApiStudent/inc/osapi/Thread.hpp ../inc/OSApiStudent/inc/osapi/linux/Thread.hpp ../inc/OSApiStudent/inc/osapi/ThreadError.hpp ../inc/OSApiStudent/inc/osapi/Exceptions.hpp ../inc/OSApiStudent/inc/osapi/ThreadFunctor.hpp ../inc/OSApiStudent/inc/osapi/linux/ThreadFunctor.hpp ../inc/OSApiStudent/inc/osapi/Completion.hpp ../inc/OSApiStudent/inc/osapi/Conditional.hpp ../inc/OSApiStudent/inc/osapi/Utility.hpp ../inc/OSApiStudent/inc/osapi/linux/Conditional.hpp ../inc/OSApiStudent/inc/osapi/Mutex.hpp ../inc/OSApiStudent/inc/osapi/MutexError.hpp ../inc/OSApiStudent/inc/osapi/linux/Mutex.hpp ../inc/OSApiStudent/inc/osapi/ConditionalError.hpp ../inc/OSApiStudent/inc/osapi/MsgQueue.hpp ../inc/OSApiStudent/inc/osapi/Message.hpp WebComm.hpp HTTPRequest.hpp
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+../inc/OSApiStudent/inc/osapi/Thread.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-26 16:32:01.48930718
 #  File has been updated.
 #  Successfully updated.
 
@@ -335,15 +475,37 @@ clean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 29):
-	rm -f *.o main
+#  recipe to execute (from 'Makefile', line 39):
+	rm -d build/arm/ -rf *.o *.d prog
+	rm -d build/x86-64/ -rf *.o *.d prog
 
-RPIUart.o: CommandController.cpp PsocComm.cpp RPIUart.cpp SystemManager.cpp testListenSettings.cpp
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 19):
-	$(CXX) $(CXXFLAGS) -c $@ $^
+# Not a target:
+../inc/OSApiStudent/inc/osapi/linux/Conditional.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-26 16:32:01.493301414
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+../inc/OSApiStudent/inc/osapi/linux/Mutex.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-26 16:32:01.493301414
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+../inc/OSApiStudent/inc/osapi/MutexError.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-26 16:32:01.48930718
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+../inc/OSApiStudent/inc/osapi/ThreadError.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-26 16:32:01.48930718
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 .DEFAULT:
@@ -351,114 +513,156 @@ RPIUart.o: CommandController.cpp PsocComm.cpp RPIUart.cpp SystemManager.cpp test
 #  Modification time never checked.
 #  File has not been updated.
 
-all: main
+# Not a target:
+all:
 #  Command line target.
 #  Implicit rule search has been done.
 #  File does not exist.
-#  File has been updated.
-#  Needs to be updated (-q is set).
-# variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/6=0%
+#  File has not been updated.
 
-main: CommandController.o PsocComm.o RPIUart.o SystemManager.o testListenSettings.o
-#  Implicit rule search has not been done.
-#  Last modified 2022-05-25 21:59:18.132044771
-#  File has been updated.
-#  Needs to be updated (-q is set).
-# variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/6=0%
-#  recipe to execute (from 'Makefile', line 23):
-	$(CXX) -o main $(OBJS) $(LNKFLAGS)
-
-CommandController.o: CommandController.cpp PsocComm.cpp RPIUart.cpp SystemManager.cpp testListenSettings.cpp
-#  Implicit rule search has not been done.
-#  Implicit/static pattern stem: ''
-#  Last modified 2022-05-25 21:59:16.755412825
-#  File has been updated.
-#  Needs to be updated (-q is set).
-# automatic
-# @ := CommandController.o
-# automatic
-# * := 
-# automatic
-# < := CommandController.cpp
-# automatic
-# + := CommandController.cpp PsocComm.cpp RPIUart.cpp SystemManager.cpp testListenSettings.cpp
-# automatic
-# % := 
-# automatic
-# ^ := CommandController.cpp PsocComm.cpp RPIUart.cpp SystemManager.cpp testListenSettings.cpp
-# automatic
-# ? := CommandController.cpp
-# automatic
-# | := 
-# variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=6/16=38%
-#  recipe to execute (from 'Makefile', line 19):
-	$(CXX) $(CXXFLAGS) -c $@ $^
-
-SystemManager.o: CommandController.cpp PsocComm.cpp RPIUart.cpp SystemManager.cpp testListenSettings.cpp
+build/arm/RPIUart.o: RPIUart.cpp RPIUart.hpp
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 19):
-	$(CXX) $(CXXFLAGS) -c $@ $^
+
+# Not a target:
+../inc/OSApiStudent/inc/osapi/ThreadFunctor.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-26 16:32:01.48930718
+#  File has been updated.
+#  Successfully updated.
+
+build/arm/CommandController.o: CommandController.cpp CommandController.hpp PsocComm.hpp RPIUart.hpp ../inc/OSApiStudent/inc/osapi/Thread.hpp ../inc/OSApiStudent/inc/osapi/linux/Thread.hpp ../inc/OSApiStudent/inc/osapi/ThreadError.hpp ../inc/OSApiStudent/inc/osapi/Exceptions.hpp ../inc/OSApiStudent/inc/osapi/ThreadFunctor.hpp ../inc/OSApiStudent/inc/osapi/linux/ThreadFunctor.hpp ../inc/OSApiStudent/inc/osapi/Completion.hpp ../inc/OSApiStudent/inc/osapi/Conditional.hpp ../inc/OSApiStudent/inc/osapi/Utility.hpp ../inc/OSApiStudent/inc/osapi/linux/Conditional.hpp ../inc/OSApiStudent/inc/osapi/Mutex.hpp ../inc/OSApiStudent/inc/osapi/MutexError.hpp ../inc/OSApiStudent/inc/osapi/linux/Mutex.hpp ../inc/OSApiStudent/inc/osapi/ConditionalError.hpp ../inc/OSApiStudent/inc/osapi/MsgQueue.hpp ../inc/OSApiStudent/inc/osapi/Message.hpp WebComm.hpp HTTPRequest.hpp
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+../inc/OSApiStudent/inc/osapi/Exceptions.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-26 16:32:01.48930718
+#  File has been updated.
+#  Successfully updated.
+
+build/arm/testListenSettings.d: testListenSettings.cpp testListenSettings.cpp SystemManager.hpp CommandController.hpp PsocComm.hpp RPIUart.hpp ../inc/OSApiStudent/inc/osapi/Thread.hpp ../inc/OSApiStudent/inc/osapi/linux/Thread.hpp ../inc/OSApiStudent/inc/osapi/ThreadError.hpp ../inc/OSApiStudent/inc/osapi/Exceptions.hpp ../inc/OSApiStudent/inc/osapi/ThreadFunctor.hpp ../inc/OSApiStudent/inc/osapi/linux/ThreadFunctor.hpp ../inc/OSApiStudent/inc/osapi/Completion.hpp ../inc/OSApiStudent/inc/osapi/Conditional.hpp ../inc/OSApiStudent/inc/osapi/Utility.hpp ../inc/OSApiStudent/inc/osapi/linux/Conditional.hpp ../inc/OSApiStudent/inc/osapi/Mutex.hpp ../inc/OSApiStudent/inc/osapi/MutexError.hpp ../inc/OSApiStudent/inc/osapi/linux/Mutex.hpp ../inc/OSApiStudent/inc/osapi/ConditionalError.hpp ../inc/OSApiStudent/inc/osapi/MsgQueue.hpp ../inc/OSApiStudent/inc/osapi/Message.hpp WebComm.hpp HTTPRequest.hpp
+ 
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'testListenSettings'
+#  Last modified 2022-05-26 16:32:56.508237951
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 32):
+	$(CXX) -MT$@ -MM $(CXXFLAGS) $< > $@
+	$(CXX) -MT$(@:.d=.o) -MM $(CXXFLAGS) $< >> $@
+
+build/arm/WebComm.o: WebComm.cpp WebComm.hpp ../inc/OSApiStudent/inc/osapi/Thread.hpp ../inc/OSApiStudent/inc/osapi/linux/Thread.hpp ../inc/OSApiStudent/inc/osapi/ThreadError.hpp ../inc/OSApiStudent/inc/osapi/Exceptions.hpp ../inc/OSApiStudent/inc/osapi/ThreadFunctor.hpp ../inc/OSApiStudent/inc/osapi/linux/ThreadFunctor.hpp ../inc/OSApiStudent/inc/osapi/Completion.hpp ../inc/OSApiStudent/inc/osapi/Conditional.hpp ../inc/OSApiStudent/inc/osapi/Utility.hpp ../inc/OSApiStudent/inc/osapi/linux/Conditional.hpp ../inc/OSApiStudent/inc/osapi/Mutex.hpp ../inc/OSApiStudent/inc/osapi/MutexError.hpp ../inc/OSApiStudent/inc/osapi/linux/Mutex.hpp ../inc/OSApiStudent/inc/osapi/ConditionalError.hpp ../inc/OSApiStudent/inc/osapi/MsgQueue.hpp ../inc/OSApiStudent/inc/osapi/Message.hpp HTTPRequest.hpp
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+CommandController.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-26 16:32:01.485312946
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+../inc/OSApiStudent/inc/osapi/linux/ThreadFunctor.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-26 16:32:01.493301414
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 SystemManager.cpp:
 #  Implicit rule search has been done.
-#  Last modified 2022-05-25 21:57:17.67340414
+#  Last modified 2022-05-26 16:32:01.485312946
 #  File has been updated.
 #  Successfully updated.
 
-testListenSettings.o: CommandController.cpp PsocComm.cpp RPIUart.cpp SystemManager.cpp testListenSettings.cpp
+build/arm/PsocComm.o: PsocComm.cpp PsocComm.hpp RPIUart.hpp ../inc/OSApiStudent/inc/osapi/Thread.hpp ../inc/OSApiStudent/inc/osapi/linux/Thread.hpp ../inc/OSApiStudent/inc/osapi/ThreadError.hpp ../inc/OSApiStudent/inc/osapi/Exceptions.hpp ../inc/OSApiStudent/inc/osapi/ThreadFunctor.hpp ../inc/OSApiStudent/inc/osapi/linux/ThreadFunctor.hpp ../inc/OSApiStudent/inc/osapi/Completion.hpp ../inc/OSApiStudent/inc/osapi/Conditional.hpp ../inc/OSApiStudent/inc/osapi/Utility.hpp ../inc/OSApiStudent/inc/osapi/linux/Conditional.hpp ../inc/OSApiStudent/inc/osapi/Mutex.hpp ../inc/OSApiStudent/inc/osapi/MutexError.hpp ../inc/OSApiStudent/inc/osapi/linux/Mutex.hpp ../inc/OSApiStudent/inc/osapi/ConditionalError.hpp ../inc/OSApiStudent/inc/osapi/MsgQueue.hpp ../inc/OSApiStudent/inc/osapi/Message.hpp
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 19):
-	$(CXX) $(CXXFLAGS) -c $@ $^
+
+build/arm/prog: build/arm/CommandController.d build/arm/PsocComm.d build/arm/RPIUart.d build/arm/SystemManager.d build/arm/WebComm.d build/arm/testListenSettings.d build/arm/CommandController.o build/arm/PsocComm.o build/arm/RPIUart.o build/arm/SystemManager.o build/arm/WebComm.o build/arm/testListenSettings.o
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 24):
+	$(CXX) $(CXXFLAGS) -o $@ $(OBJECTS) $(LNKFLAGS)
+	echo $(BUILD_DIR)/$(EXE)
+
+build/arm/PsocComm.d: PsocComm.cpp PsocComm.cpp PsocComm.hpp RPIUart.hpp ../inc/OSApiStudent/inc/osapi/Thread.hpp ../inc/OSApiStudent/inc/osapi/linux/Thread.hpp ../inc/OSApiStudent/inc/osapi/ThreadError.hpp ../inc/OSApiStudent/inc/osapi/Exceptions.hpp ../inc/OSApiStudent/inc/osapi/ThreadFunctor.hpp ../inc/OSApiStudent/inc/osapi/linux/ThreadFunctor.hpp ../inc/OSApiStudent/inc/osapi/Completion.hpp ../inc/OSApiStudent/inc/osapi/Conditional.hpp ../inc/OSApiStudent/inc/osapi/Utility.hpp ../inc/OSApiStudent/inc/osapi/linux/Conditional.hpp ../inc/OSApiStudent/inc/osapi/Mutex.hpp ../inc/OSApiStudent/inc/osapi/MutexError.hpp ../inc/OSApiStudent/inc/osapi/linux/Mutex.hpp ../inc/OSApiStudent/inc/osapi/ConditionalError.hpp ../inc/OSApiStudent/inc/osapi/MsgQueue.hpp ../inc/OSApiStudent/inc/osapi/Message.hpp
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'PsocComm'
+#  Last modified 2022-05-26 16:32:58.868318199
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 32):
+	$(CXX) -MT$@ -MM $(CXXFLAGS) $< > $@
+	$(CXX) -MT$(@:.d=.o) -MM $(CXXFLAGS) $< >> $@
+
+# Not a target:
+../inc/OSApiStudent/inc/osapi/MsgQueue.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-26 16:32:01.48930718
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 RPIUart.cpp:
 #  Implicit rule search has been done.
-#  Last modified 2022-05-24 13:36:52.798161038
+#  Last modified 2022-05-26 16:32:01.485312946
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
-.SUFFIXES:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+WebComm.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-26 16:32:01.485312946
+#  File has been updated.
+#  Successfully updated.
+
+build/arm/CommandController.d: CommandController.cpp CommandController.cpp CommandController.hpp PsocComm.hpp RPIUart.hpp ../inc/OSApiStudent/inc/osapi/Thread.hpp ../inc/OSApiStudent/inc/osapi/linux/Thread.hpp ../inc/OSApiStudent/inc/osapi/ThreadError.hpp ../inc/OSApiStudent/inc/osapi/Exceptions.hpp ../inc/OSApiStudent/inc/osapi/ThreadFunctor.hpp ../inc/OSApiStudent/inc/osapi/linux/ThreadFunctor.hpp ../inc/OSApiStudent/inc/osapi/Completion.hpp ../inc/OSApiStudent/inc/osapi/Conditional.hpp ../inc/OSApiStudent/inc/osapi/Utility.hpp ../inc/OSApiStudent/inc/osapi/linux/Conditional.hpp ../inc/OSApiStudent/inc/osapi/Mutex.hpp ../inc/OSApiStudent/inc/osapi/MutexError.hpp ../inc/OSApiStudent/inc/osapi/linux/Mutex.hpp ../inc/OSApiStudent/inc/osapi/ConditionalError.hpp ../inc/OSApiStudent/inc/osapi/MsgQueue.hpp ../inc/OSApiStudent/inc/osapi/Message.hpp WebComm.hpp HTTPRequest.hpp
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'CommandController'
+#  Last modified 2022-05-26 16:32:59.524978666
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 32):
+	$(CXX) -MT$@ -MM $(CXXFLAGS) $< > $@
+	$(CXX) -MT$(@:.d=.o) -MM $(CXXFLAGS) $< >> $@
 
 # Not a target:
 testListenSettings.cpp:
 #  Implicit rule search has been done.
-#  Last modified 2022-05-24 11:57:32.193493099
+#  Last modified 2022-05-26 16:32:01.48930718
 #  File has been updated.
 #  Successfully updated.
 
-PsocComm.o: CommandController.cpp PsocComm.cpp RPIUart.cpp SystemManager.cpp testListenSettings.cpp
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 19):
-	$(CXX) $(CXXFLAGS) -c $@ $^
+# Not a target:
+../inc/OSApiStudent/inc/osapi/linux/Thread.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-26 16:32:01.493301414
+#  File has been updated.
+#  Successfully updated.
 
 # files hash-table stats:
-# Load=16/1024=2%, Rehash=0, Collisions=0/39=0%
+# Load=46/1024=4%, Rehash=0, Collisions=8/314=3%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 27 / storage = 331 B / avg = 12 B
-# current buf: size = 8162 B / used = 331 B / count = 27 / avg = 12 B
+# strcache buffers: 1 (0) / strings = 63 / storage = 1448 B / avg = 22 B
+# current buf: size = 8162 B / used = 1448 B / count = 63 / avg = 22 B
 
-# strcache performance: lookups = 58 / hit rate = 53%
+# strcache performance: lookups = 318 / hit rate = 80%
 # hash-table stats:
-# Load=27/8192=0%, Rehash=0, Collisions=0/58=0%
-# Finished Make data base on Wed May 25 22:02:03 2022
+# Load=63/8192=1%, Rehash=0, Collisions=0/318=0%
+# Finished Make data base on Thu May 26 16:33:02 2022
 
  

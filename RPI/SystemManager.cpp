@@ -13,20 +13,39 @@ void SystemManager::runMain(){
     cmdCtrl.setupCommunicationModules();
     //cmdCtrl.getTreatRequestAnswer();
     //std::cout << "AFTER PSOC LISTENER\n";
-    std::cout << "main loop sending UART\n";
-        unsigned char tlow[5];
-        tlow[0] = 'W';
-        tlow[1] = '1';
-        tlow[2] = '0';
-        tlow[3] = '0';
-        tlow[4] = '\0';
-        unsigned char* ptr = &tlow[0];
-        cmdCtrl.dispatchUartCommand(ptr);
     while(true){    
+        std::cout << "main loop sending UART\n";
+        unsigned char w[5];
+        w[0] = 'W';
+        w[1] = '1';
+        w[2] = '0';
+        w[3] = '0';
+        w[4] = '\0';
+        unsigned char f[5];
+        f[0] = 'F';
+        f[1] = '1';
+        f[2] = '0';
+        f[3] = '0';
+        f[4] = '\0';
+        unsigned char t[5];
+        t[0] = 'T';
+        t[1] = '0';
+        t[2] = '2';
+        t[3] = '0';
+        t[4] = '\0';
+        unsigned char* wptr = &w[0];
+        cmdCtrl.dispatchUartCommand(wptr);
+        osapi::sleep(10000);
+        unsigned char* tptr = &t[0];
+        cmdCtrl.dispatchUartCommand(tptr);
+        osapi::sleep(10000);
+        unsigned char* fptr = &f[0];
+        cmdCtrl.dispatchUartCommand(fptr);
+        osapi::sleep(10000);
         
         //std::cout << "Requesting Treat\n";
         //cmdCtrl.requestTreat();
-        sleep(5);
+        osapi::sleep(5000);
     }
 }
 

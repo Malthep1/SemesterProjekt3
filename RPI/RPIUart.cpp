@@ -39,7 +39,7 @@ int RPIUart::transmitBytes(unsigned char* command){
 	tx_buffer[i] = 'E';
 	if (uart0_filestream != -1)
 	{
-		int count = write(uart0_filestream, tx_buffer, i);		//Filestream, bytes to write, number of bytes to write
+		int count = write(uart0_filestream, tx_buffer, i+1);		//Filestream, bytes to write, number of bytes to write
 		if (count < 0)
 		{
 			printf("UART TRANSMIT ERROR\n");
@@ -72,6 +72,7 @@ unsigned char* RPIUart::readBytes(){
 		if (rx_length <= 0)
 		{
 			std::cout << "No Bytes to read\n";
+			rx_buffer[0] = '\0';
 		}
 		else
 		{

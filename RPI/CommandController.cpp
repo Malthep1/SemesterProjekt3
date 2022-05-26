@@ -9,23 +9,23 @@ MsgQueue* CommandController::getMessageQueue(){
 void CommandController::handleCommand(osapi::Message* msg, unsigned long id){
     UartString* cmsg = static_cast<UartString*>(msg);
     if(cmsg->response == "SACKE"){
-        std::cout << "SACKE HIT\n";
+        //std::cout << "SACKE HIT\n";
         //ACK
     }   
     else if(cmsg->response == "SNACKE"){
-        std::cout << "SNACKE HIT\n";
+        //std::cout << "SNACKE HIT\n";
         //dispatchUartCommand("RE");
     }
     else if(cmsg->response == "STLOWE"){
-        std::cout << "TLOW HIT\n";
+        //std::cout << "TLOW HIT\n";
         //Web notification
     }
     else if(cmsg->response == "SFLOWE"){
-        std::cout << "FLOW HIT\n";
+        //std::cout << "FLOW HIT\n";
         //Web notificiation
     }
     else if(cmsg->response == "SWLOWE"){
-        std::cout << "WLOW HIT\n";
+        //std::cout << "WLOW HIT\n";
         //Web notificiation
     }
     else if(cmsg->response == "STRE"){
