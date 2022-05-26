@@ -39,6 +39,35 @@ using traits_t =
     return resp.done();
  }
 
+ /* This handler checks if a connection with dev_id written in parameter is present
+*   If so, it takes the treat response data and sends it back. Otherwise sends "Mobile app not found"*/
+ auto FgHandler::onGetReqTreat(const restinio::request_handle_t& req, rr::route_params_t params){
+     auto resp = init_resp(req->create_response());
+     
+     try{
+        // Convert request parameter to an integer used to look for the correct websocket connection (mobile app)
+        auto p_dev_id = restinio::utils::unescape_percent_encoding(params["dev_id"]);
+        int dev_id = std::stoi(p_dev_id);
+        bool found = false;
+        // Look for the correct entry in the websocket connection registry
+        for(auto [k, v] : m_registry){
+            if(v.fg_id == dev_id){
+                resp.set_body(v.reply);
+                v.reply = REPLY_UNDEF;
+                found = true;
+            }
+        }
+        if(!found){
+            resp.set_body("Mobile app not found");
+        }  
+     }
+     catch(const std::exception &)
+    {
+        mark_as_bad_request(resp);
+    }
+    return resp.done();
+ }
+
 /* This handler checks if a connection with dev_id written in parameter is present
 *  If so, it sends a treat request message. Otherwise sends "No mobile app found" response */
 auto FgHandler::onPostReqTreat(const restinio::request_handle_t& req, rr::route_params_t params){
@@ -90,20 +119,20 @@ std::string FgHandler::handleWsMessage(ws_handle wsh, std::string payload){
         if(data != m_registry.end()){
             data->second.reply = REPLY_ALLOW;
         }
-        return("Treat acknowledges, relaying msg to device\n");
+        return("Treat request acknowledged, relaying msg to device\n");
     }
     else if(payload.find("treat nack") != std::string::npos){
         auto data = m_registry.find(wsh->connection_id());
         if(data != m_registry.end()){
             data->second.reply = REPLY_DENY;
         }
-        return("Treat not acknowledged, relaying msg to device\n");
+        return("Treat request not acknowledged, relaying msg to device\n");
     }
     else
         return(payload);
 }
 
-// This
+// Handler for incoming websocket messages. Uses handleWsMessage to actually check the message and choose response
 auto FgHandler::onWebsocketConnect(const restinio::request_handle_t& req, rr::route_params_t params){
     if(restinio::http_connection_header_t::upgrade == req->header().connection())
     {
@@ -146,7 +175,8 @@ auto FgHandler::onWebsocketConnect(const restinio::request_handle_t& req, rr::ro
     return restinio::request_rejected();
 }
 
-// Unimplemented options , PATCH, DELETE, PUT
+// Unimplemented options : PATCH, DELETE, PUT
+// Reason : No need to update or delete data in this implementation. KISS
 auto FgHandler::options(restinio::request_handle_t req, restinio::router::route_params_t){
     printf("request options called!!!\n");
     const auto methods = "OPTIONS, GET, POST";
@@ -156,39 +186,6 @@ auto FgHandler::options(restinio::request_handle_t req, restinio::router::route_
     resp.append_header(restinio::http_field::access_control_max_age, "86400");
     return resp.done();
 }
-
-
-
-
-// Returns all weather data from a specific date
-/*
-auto FgHandler::on_get_data(const restinio::request_handle_t& req, rr::route_params_t params) const
-{
-    auto resp = init_resp(req->create_response());
-    if(m_wData.empty()){
-        resp.set_body("No weather data on the server!\n");
-        return resp.done();
-    }
-    
-    try{
-        auto date = restinio::utils::unescape_percent_encoding(params["Date"]);
-
-        resp.set_body("Weather data for the selected date: \n");
-
-        for(unsigned int i = 0; i < m_wData.size(); i++){
-            if(date == m_wData[i].date_){
-                append_data(resp, i);
-            }
-        }
-    }
-    catch(const std::exception &)
-    {
-        mark_as_bad_request(resp);
-    }
-    return resp.done();
-}
-*/
-
 
 // Binds the handler functions to HTTP requests!
 auto server_handler()
@@ -207,14 +204,14 @@ auto server_handler()
             .done();
     };
 
-    // Handler for '/' path
+    // Endpoint routing goes here:
     router->add_handler(restinio::http_method_options(), "/", by(&FgHandler::options));
-    // router->add_handler(restinio::)
     
     router->http_get("/chat", by(&FgHandler::onWebsocketConnect));
     router->http_get("/check/:dev_id", by(&FgHandler::onGetCheckId));
+    router->http_get("/req_treat/:dev_id", by(&FgHandler::onGetReqTreat));
     router->http_post("/req_treat/:dev_id", by(&FgHandler::onPostReqTreat));
-    //router->http_get("/Date/:Date", by(&FgHandler::on_get_data));
+
     
     // Disable other methods for '/'
     router->add_handler(
@@ -224,12 +221,11 @@ auto server_handler()
     return router;
 }
 
+// Wrapper around starting the server
 int run(){
     using namespace std::chrono;
     
-
-    
-try{    
+    try{    
         restinio::run(
             restinio::on_this_thread<traits_t>()
                 .address( "192.168.1.20" )

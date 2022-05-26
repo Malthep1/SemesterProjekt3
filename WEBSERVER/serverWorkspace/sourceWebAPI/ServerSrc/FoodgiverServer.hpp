@@ -8,10 +8,12 @@
 namespace rr = restinio::router;
 namespace rws = restinio::websocket::basic;
 
+// Replies for treat requests 
 #define REPLY_UNDEF "no reply yet"
 #define REPLY_DENY  "deny"
 #define REPLY_ALLOW "allow"
 
+// For such a small project the id, ws connection handle and reply data can be stored in the same struct
 struct fgSocketData_t{
     int fg_id;
     rws::ws_handle_t ws_handle;
@@ -33,6 +35,7 @@ public:
 
     auto onPostReqTreat(const restinio::request_handle_t& req, rr::route_params_t);
     auto onGetCheckId(const restinio::request_handle_t& req, rr::route_params_t params);
+    auto onGetReqTreat(const restinio::request_handle_t& req, rr::route_params_t params);
     auto on_update(const restinio::request_handle_t& req, rr::route_params_t params) const;
     auto onWebsocketConnect(const restinio::request_handle_t& req, rr::route_params_t params);
     auto options(restinio::request_handle_t req, restinio::router::route_params_t);
@@ -57,7 +60,7 @@ private:
     init_resp(RESP resp)
     {
         resp
-            .append_header("Server", "Foodgiver Server /v.0.4")
+            .append_header("Server", "Foodgiver Server /v.0.9")
             .append_header_date_field()
             .append_header("Content-Type", "application/json")
             .append_header(restinio::http_field::access_control_allow_origin, "*");
@@ -73,6 +76,7 @@ private:
     }
 };
 
+// Might need to refactor these
 auto server_handler();
 
 int run();
