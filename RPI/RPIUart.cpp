@@ -20,31 +20,27 @@ void RPIUart::initializeUART(){
 	options.c_lflag = 0;
 	tcflush(uart0_filestream, TCIFLUSH);
 	tcsetattr(uart0_filestream, TCSANOW, &options);
+	printf("UART INITIALIZED\n");
 }
 
 int RPIUart::transmitBytes(unsigned char* command){
 	//Sending bytes
 	unsigned char tx_buffer[10];
 	unsigned char *p_tx_buffer;
-	std::cout << "SENDING ";
 	p_tx_buffer = &tx_buffer[0];
 	*p_tx_buffer++ = 'S';
 	int clength = strlen((char*) command);
+	printf("clength = %i",clength);
 	for (size_t i = 0; i < clength; i++){
 		*p_tx_buffer++ = command[i];
 	}
 	*p_tx_buffer++ = 'E';
-	for (size_t j = 0; j < 10; j++)
-	{
-		std::cout << tx_buffer[j];
-	}
-	std::cout << "\n";
 	if (uart0_filestream != -1)
 	{
 		int count = write(uart0_filestream, &tx_buffer[0], (p_tx_buffer - &tx_buffer[0]));		//Filestream, bytes to write, number of bytes to write
 		if (count < 0)
 		{
-			std::cout << "UART TRANSMIT ERROR\n";
+			printf("UART TRANSMIT ERROR\n");
             return -1;
 		}
         printf("Succesfully wrote bytes: \"%s\"  on UART serial0 \n", tx_buffer);

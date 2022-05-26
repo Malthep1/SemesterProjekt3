@@ -2,7 +2,7 @@
 
 # Which target? set default
 ifndef TARGET
-TARGET=host
+TARGET=target
 endif
 
 # Debug build? debug is default

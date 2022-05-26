@@ -27,12 +27,12 @@ class PsocComm{
 public:
     static PsocComm& getInstance(); // Returns instance of PsocComm, SINGLETON PATTERN
     void createPsocCommListenerThread(MsgQueue* msgQueue);
-    void sendCommand(string s);
+    void sendCommand(unsigned char* s);
 private:
     PsocComm(){}; //Can only be instantiated from inside the class.
     PsocComm(PsocComm const&);              // Preventing copies
     void operator=(PsocComm const&);        // Preventing copies
-    std::string latestCommand;
+    unsigned char* latestCommand;
     RPIUart uart_;
     // Nested class which is to be run as a thread to listen for incomming messages on the UART.
     class PsocListenerThread : public osapi::ThreadFunctor{

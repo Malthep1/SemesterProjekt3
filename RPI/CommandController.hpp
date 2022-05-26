@@ -36,7 +36,7 @@ public:
     //Checks msqQueue, dispatches command if present
     void dispatchCommand();
     //For dispatching command directly from sys manager
-    void dispatchUartCommand(string s);
+    void dispatchUartCommand(unsigned char* s);
     MsgQueue * getMessageQueue();
     void setupCommunicationModules();
     void requestTreat();

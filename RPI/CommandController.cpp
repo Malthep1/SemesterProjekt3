@@ -14,7 +14,7 @@ void CommandController::handleCommand(osapi::Message* msg, unsigned long id){
     }   
     else if(cmsg->response == "SNACKE"){
         std::cout << "SNACKE HIT\n";
-        dispatchUartCommand("RE");
+        //dispatchUartCommand("RE");
     }
     else if(cmsg->response == "STLOWE"){
         std::cout << "TLOW HIT\n";
@@ -35,7 +35,7 @@ void CommandController::handleCommand(osapi::Message* msg, unsigned long id){
     else if(cmsg->response == "STAE"){
         std::cout << "TA HIT\n";
         //Dispense treat
-        dispatchUartCommand("T");
+        //dispatchUartCommand("T");
     }
     else if(cmsg->response == "STDE"){
         std::cout << "TD HIT\n";
@@ -51,7 +51,7 @@ void CommandController::setupCommunicationModules(){
     //WebComm::getInstance().createPsocCommListenerThread(getMessageQueue());
 }
 
-void CommandController::dispatchUartCommand(string s){
+void CommandController::dispatchUartCommand(unsigned char* s){
     PsocComm::getInstance().sendCommand(s);
 }
 
@@ -64,6 +64,7 @@ void CommandController::getTreatRequestAnswer(){
 }
 
 void CommandController::dispatchCommand(){
+    std::cout << "Waiting for command\n";
     Message* msg = getMessageQueue()->receive(id);
     handleCommand(msg, id);
     delete msg;

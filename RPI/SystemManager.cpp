@@ -10,15 +10,21 @@ void SystemManager::runMain(){
 
     //osapi::sleep(10000);
     //std::cout << "PSOC LISTENER\n";
-    cmdCtrl.getTreatRequestAnswer();
     cmdCtrl.setupCommunicationModules();
+    //cmdCtrl.getTreatRequestAnswer();
     //std::cout << "AFTER PSOC LISTENER\n";
-    while(true){
-        sleep(1);
-        cmdCtrl.dispatchCommand();
+    while(true){    
+        std::cout << "main loop sending UART\n";
+        unsigned char tlow[4];
+        tlow[0] = 'T';
+        tlow[1] = 'L';
+        tlow[2] = 'O';
+        tlow[3] = 'W';
+        unsigned char* ptr = &tlow[0];
+        cmdCtrl.dispatchUartCommand(ptr);
         //std::cout << "Requesting Treat\n";
         //cmdCtrl.requestTreat();
-        sleep(1);
+        sleep(5);
     }
 }
 

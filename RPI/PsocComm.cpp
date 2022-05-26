@@ -39,58 +39,43 @@ void PsocComm::PsocListenerThread::handleUart(std::string uartString){
 }
 
 void PsocComm::PsocListenerThread::run(){
-    std:: cout << "Started\n";
-    string uartInc("SACKE");
+    //std:: cout << "Started\n";
+    //string uartInc("SACKE");
     //osapi::sleep(500);
     //handleUart(uartInc);
+    string uartInc("SACKE");
+    std::cout << "PSOC INC\n";
+    handleUart(uartInc);
+
     while(true){
-        //string uartInc = waitForUartComm();
-        handleUart(uartInc);
-        sleep(4);
+        string uartInc = waitForUartComm();
         std::cout << "PSOC INC\n";
-        uartInc = "SNACKE";
         handleUart(uartInc);
-        sleep(4);
-        std::cout << "PSOC INC\n";
-        uartInc = "STLOWE";
-        handleUart(uartInc);
-        sleep(4);
-        std::cout << "PSOC INC\n";
-        uartInc = "SFLOWE";
-        handleUart(uartInc);
-        sleep(4);
-        std::cout << "PSOC INC\n";
-        uartInc = "SWLOWE";
-        handleUart(uartInc);
-        sleep(4);
-        std::cout << "PSOC INC\n";
-        uartInc = "STRE";
-        handleUart(uartInc);
-        sleep(4);
-        std::cout << "PSOC INC\n";
     }
 }
 
-void PsocComm::sendCommand(string s){
+void PsocComm::sendCommand(unsigned char* s){
     // if s = re, resending is the goal
-    if(s == "RE"){
-        s = latestCommand;
-    }
+    //std::cout << s << "\n";
+    //if(s == "RE"){
+    //    s = latestCommand;
+    //}
     //converting to char array and ptr
-    unsigned char* ptr;
-    if(s == "TD" || s == "TA"){
-        unsigned char char_arr[2];
-        ptr = &char_arr[0];
-        std::copy(s.cbegin(), s.cend(), char_arr);
-    }
-    else {
-        unsigned char char_arr[4];
-        ptr = &char_arr[0];
-        std::copy(s.cbegin(), s.cend(), char_arr);
-    }
-    
-    int error;
-    error = uart_.transmitBytes(ptr);
+    //unsigned char* ptr = &s;
+
+    //unsigned char char_arr1[2];
+    //unsigned char char_arr2[4];
+    //if(s == "TD" || s == "TA"){
+    //    ptr = &char_arr1[0];
+    //    std::copy(s.cbegin(), s.cend(), char_arr1);
+    //}
+    //else {
+    //    std::cout << "BEFORE POINTER CREATION\n";
+    //    ptr = &char_arr2[0];
+    //    std::copy(s.cbegin(), s.cend(), char_arr2);
+    //}
+
+    int error = uart_.transmitBytes(s);
     if(error != 0){
         std::cout << "Error transmitting bytes.\n";
     }
@@ -109,7 +94,7 @@ string PsocComm::PsocListenerThread::waitForUartComm(){
         if(incomming != NULL && incomming[0] != '\0'){
             commandReceived++;
         }
-        sleep(5000);
+        sleep(5);
     }
     const char * constPtr = (const char*) incomming;
     std::string returnstring(constPtr);
