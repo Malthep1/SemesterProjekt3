@@ -25,27 +25,37 @@ void RPIUart::initializeUART(){
 
 int RPIUart::transmitBytes(unsigned char* command){
 	//Sending bytes
-	unsigned char tx_buffer[10];
+	unsigned char tx_buffer[6];
 	unsigned char *p_tx_buffer;
-	p_tx_buffer = &tx_buffer[0];
-	*p_tx_buffer++ = 'S';
+	
 	int clength = strlen((char*) command);
-	printf("clength = %i",clength);
-	for (size_t i = 0; i < clength; i++){
-		*p_tx_buffer++ = command[i];
+	printf("clength = %i\n",clength);
+
+	size_t i;
+	tx_buffer[0] = 'S';
+	for (i = 1; i < clength + 1; i++){
+		tx_buffer[i] = command[i-1];
 	}
-	*p_tx_buffer++ = 'E';
+	tx_buffer[i] = 'E';
 	if (uart0_filestream != -1)
 	{
-		int count = write(uart0_filestream, &tx_buffer[0], (p_tx_buffer - &tx_buffer[0]));		//Filestream, bytes to write, number of bytes to write
+		int count = write(uart0_filestream, tx_buffer, i);		//Filestream, bytes to write, number of bytes to write
 		if (count < 0)
 		{
 			printf("UART TRANSMIT ERROR\n");
             return -1;
 		}
-        printf("Succesfully wrote bytes: \"%s\"  on UART serial0 \n", tx_buffer);
+        printf("Succesfully wrote bytes:  \n");
+		i = 0;
+		while(i < sizeof(tx_buffer))
+		{
+			printf("%c", tx_buffer[i]);
+			i++;
+		}
+		printf("\n");
 	}
 
+	//p_tx_buffer = &tx_buffer[0];
     return 0;
 }
 

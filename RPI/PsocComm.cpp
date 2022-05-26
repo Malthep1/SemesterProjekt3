@@ -48,9 +48,10 @@ void PsocComm::PsocListenerThread::run(){
     handleUart(uartInc);
 
     while(true){
-        string uartInc = waitForUartComm();
+        //string uartInc = waitForUartComm();
         std::cout << "PSOC INC\n";
-        handleUart(uartInc);
+        //handleUart(uartInc);
+        
     }
 }
 

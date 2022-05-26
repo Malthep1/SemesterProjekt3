@@ -13,15 +13,17 @@ void SystemManager::runMain(){
     cmdCtrl.setupCommunicationModules();
     //cmdCtrl.getTreatRequestAnswer();
     //std::cout << "AFTER PSOC LISTENER\n";
-    while(true){    
-        std::cout << "main loop sending UART\n";
-        unsigned char tlow[4];
-        tlow[0] = 'T';
-        tlow[1] = 'L';
-        tlow[2] = 'O';
-        tlow[3] = 'W';
+    std::cout << "main loop sending UART\n";
+        unsigned char tlow[5];
+        tlow[0] = 'W';
+        tlow[1] = '1';
+        tlow[2] = '0';
+        tlow[3] = '0';
+        tlow[4] = '\0';
         unsigned char* ptr = &tlow[0];
         cmdCtrl.dispatchUartCommand(ptr);
+    while(true){    
+        
         //std::cout << "Requesting Treat\n";
         //cmdCtrl.requestTreat();
         sleep(5);
