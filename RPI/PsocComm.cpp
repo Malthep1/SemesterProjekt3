@@ -48,10 +48,10 @@ void PsocComm::PsocListenerThread::run(){
     //handleUart(uartInc);
 
     while(true){
-        //string uartInc = waitForUartComm();
-        std::cout << "PSOC INC\n";
-        //handleUart(uartInc);
-        osapi::sleep(50000);
+        std::cout << "PSOC READY\n";
+        string uartInc = waitForUartComm();
+        std::cout << "PSOC INC: " << uartInc << "\n";
+        handleUart(uartInc);
     }
 }
 
@@ -89,13 +89,12 @@ void PsocComm::sendCommand(unsigned char* s){
 string PsocComm::PsocListenerThread::waitForUartComm(){
     int commandReceived = 0;
     unsigned char* incomming;
-    osapi::sleep(5000);
     while(commandReceived == 0){
+        osapi::sleep(500);
         incomming = uart_->readBytes();
         if(incomming != NULL && incomming[0] != '\0'){
             commandReceived++;
         }
-        osapi::sleep(1000);
     }
     const char * constPtr = (const char*) incomming;
     std::string returnstring(constPtr);

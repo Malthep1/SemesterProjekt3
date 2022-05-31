@@ -8,6 +8,8 @@ MsgQueue* CommandController::getMessageQueue(){
 
 void CommandController::handleCommand(osapi::Message* msg, unsigned long id){
     UartString* cmsg = static_cast<UartString*>(msg);
+    string resp = cmsg->response;
+    
     if(cmsg->response == "SACKE"){
         //std::cout << "SACKE HIT\n";
         //ACK
@@ -41,9 +43,14 @@ void CommandController::handleCommand(osapi::Message* msg, unsigned long id){
         std::cout << "TD HIT\n";
         //Denied, do nothing??
     }
+    else if(id == 123123){
+        char * ptr = strcpy(new char[5], resp.c_str());
+        dispatchUartCommand((unsigned char*) ptr);
+    }
     else{
         std::cout << "ERROR, returning NACK\n";
     }
+
 }
 
 void CommandController::setupCommunicationModules(){

@@ -2,13 +2,12 @@
 
 /**
  * @file SystemManager.hpp
- * @author Marcin Szymanek (marcinwszymanek@gmail.com) & Malthe Petersen(0.2 & 0.3 & 0.4)
- * @brief Prototype inotify thread to keep tabs on /dat/settings.dat file
- * @version 0.4
- * @date 2022-05-24
+ * @author Marcin Szymanek (marcinwszymanek@gmail.com) & Malthe Petersen(0.2 & 0.3 & 0.4 & 0.5)
+ * @brief System Manager Class
+ * @version 0.5
+ * @date 2022-05-31
  * 
- * For testing purposes the thread is ran and joined when SystemManager is created
- * The thread will print out a message every time a file has been written to and closed
+ * Purpose is managing the entire system at runtime.
  * 
  */
 
@@ -19,15 +18,22 @@
 #include <sys/inotify.h>    // inotify API
 #include <unistd.h>         // read() is used to read inotify events
 #include <fcntl.h>
+#include <string>
 #include <vector>
+#include <iostream>
 #include <boost/algorithm/string.hpp>
 
 using osapi::Thread;
 using osapi::ThreadFunctor;
 
+struct CommandString : public osapi::Message{
+    std::string response; 
+};
+
 struct Setting
 {
-    int feedingtime;
+    int feedingHour;
+    int feedingMinute;
     int foodAmount;
     int treatLimit;
     bool treatsEnabled = false;
@@ -38,12 +44,14 @@ class SystemManager{
 public:
     SystemManager() : lt_(nullptr), tt_(nullptr){
         std::cout << "System Manager Online\n";
-        listenSettingsUpdate();
-        currentSetting.feedingtime = 8;
+        currentSetting.feedingHour = 15;
+        currentSetting.feedingMinute = 53;
         currentSetting.foodAmount = 100;
         currentSetting.treatLimit = 3;
         currentSetting.treatRequestsEnabled = true;
         currentSetting.treatsEnabled = true; 
+        listenSettingsUpdate();
+        waitFeedingTime();
     };
     void runMain();
 private:
@@ -69,12 +77,14 @@ private:
     };
     class TimeThread : public ThreadFunctor{
     public:
-        TimeThread(Setting * curSetting) {
+        TimeThread(Setting * curSetting, MsgQueue * msgQueue_) : msgQueue(msgQueue_) {
             curSet = curSetting;
         };
     private:
         void run();
+        void passToCommandController(std::string command);
         Setting * curSet;
+        MsgQueue * msgQueue;
     };
     void runSystem();
     void listenSettingsUpdate();

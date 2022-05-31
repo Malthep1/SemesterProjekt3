@@ -10,42 +10,19 @@ void SystemManager::runMain(){
 
     //osapi::sleep(10000);
     //std::cout << "PSOC LISTENER\n";
-    cmdCtrl.setupCommunicationModules();
+    //cmdCtrl.setupCommunicationModules();
     //cmdCtrl.getTreatRequestAnswer();
     //std::cout << "AFTER PSOC LISTENER\n";
-    while(true){    
-        std::cout << "main loop sending UART\n";
-        unsigned char w[5];
-        w[0] = 'W';
-        w[1] = '1';
-        w[2] = '0';
-        w[3] = '0';
-        w[4] = '\0';
-        unsigned char f[5];
-        f[0] = 'F';
-        f[1] = '1';
-        f[2] = '0';
-        f[3] = '0';
-        f[4] = '\0';
-        unsigned char t[5];
-        t[0] = 'T';
-        t[1] = '0';
-        t[2] = '2';
-        t[3] = '0';
-        t[4] = '\0';
-        unsigned char* wptr = &w[0];
-        cmdCtrl.dispatchUartCommand(wptr);
-        osapi::sleep(10000);
-        unsigned char* tptr = &t[0];
-        cmdCtrl.dispatchUartCommand(tptr);
-        osapi::sleep(10000);
-        unsigned char* fptr = &f[0];
-        cmdCtrl.dispatchUartCommand(fptr);
-        osapi::sleep(10000);
+
         
-        //std::cout << "Requesting Treat\n";
-        //cmdCtrl.requestTreat();
+    while(true){    
+
+        std::cout << "MAIN LOOP ONLINE\n";
         osapi::sleep(5000);
+        std::cout << "DISPATCHING COMMAND\n";
+        cmdCtrl.dispatchCommand();
+        std::cout << "COMMAND DISPATCHED\n";
+        //cmdCtrl.requestTreat();
     }
 }
 
@@ -64,7 +41,7 @@ void SystemManager::listenSettingsUpdate(){
 
 void SystemManager::waitFeedingTime(){
     Setting * cs =  &currentSetting;
-    TimeThread timeThread(cs);   
+    TimeThread timeThread(cs, cmdCtrl.getMessageQueue());   
     tt_ = new Thread(&timeThread);
     //
     tt_->start();
@@ -93,8 +70,12 @@ void SystemManager::ListenerThread::run(){
             if((event->mask & IN_CLOSE_WRITE | IN_MODIFY) == 10){
                 printf("File was written to and has been closed\n");
                 // Do something (fx send Msg to main thread to update the settings)
+                //SPLIT CSV
                 std::string settingString(buffer);
                 boost::split(settings, settingString, boost::is_any_of(","));
+                //LOAD INTO SETTINGS STRUCT
+                //KILL TIMER THREAD AND START A NEW ONE
+
             }
             
             i = i + EVENT_SIZE + event->len;
@@ -105,10 +86,36 @@ void SystemManager::ListenerThread::run(){
     }
 }
 
+void SystemManager::TimeThread::passToCommandController(std::string command){
+    CommandString* msg = new CommandString;
+    msg->response = command;
+    msgQueue->send(123123, msg);
+}
+
 void SystemManager::TimeThread::run(){
-    std::tm feedingTime, currentTime, timeDiff;
-    time_t now = time(0);
-    currentTime = *localtime(&now);
+    std::cout << "TIME THREAD ONLINE\n";
+    std::cout << "CURRENT SETTING : { Hour: " << std::to_string(curSet->feedingHour) << " Minute: " << std::to_string(curSet->feedingMinute) << " } \n";
+    
+    time_t t = time(NULL);
+    struct tm *tmp = gmtime(&t);    
+    bool isFeedingTime = false;
+    std::cout << "Hour: " << std::to_string(tmp->tm_hour) << " Minute: " << std::to_string(tmp->tm_min) << "\n";
+    while(!isFeedingTime){
+        t = time(NULL);
+        tmp = gmtime(&t);
+        if(curSet->feedingHour == tmp->tm_hour){
+            if(curSet->feedingMinute == tmp->tm_min){
+                std::cout << "Bingo \n";
+                isFeedingTime = true;
+            }
+        }
+        osapi::sleep(30000);
+        std::cout << "{ Hour: " << std::to_string(tmp->tm_hour) << " Minute: " << std::to_string(tmp->tm_min) << " } \n";
+    }
+    std::cout << "FEEDING TIME\n";
+    string food = "F";
+    string amount = std::to_string(curSet->foodAmount);
+    passToCommandController(food+amount);
 }
 
 int SystemManager::ListenerThread::init_inot(){

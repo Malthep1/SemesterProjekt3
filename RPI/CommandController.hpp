@@ -18,13 +18,14 @@
 #include <fcntl.h>
 #include <string>
 #include <iostream>
+#include <cstring>
 using osapi::Thread;
 using osapi::MsgQueue;
 using osapi::Message;
 using std::string;
 
 struct uartString : public osapi::Message{
-    std::string* response; 
+    std::string response; 
 };
 
 
