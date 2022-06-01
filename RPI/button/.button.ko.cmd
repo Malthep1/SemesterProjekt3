@@ -1,0 +1,1 @@
+cmd_/home/stud/prj3/button/button.ko := arm-poky-linux-gnueabi-ld -r -EL --build-id  -T ./scripts/module-common.lds -T ./arch/arm/kernel/module.lds -o /home/stud/prj3/button/button.ko /home/stud/prj3/button/button.o /home/stud/prj3/button/button.mod.o;  true
