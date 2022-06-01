@@ -53,7 +53,6 @@ private:
             }
         }     
     }
-    int append_data(restinio::response_builder_t<restinio::restinio_controlled_output_t> &resp, int i = -1) const;
 
     template <typename RESP>
     static RESP
@@ -76,7 +75,10 @@ private:
     }
 };
 
-// Might need to refactor these
-auto server_handler();
+class FgServer{
+    public:
+        int run();
+    private:
+        auto server_handler();
+};
 
-int run();

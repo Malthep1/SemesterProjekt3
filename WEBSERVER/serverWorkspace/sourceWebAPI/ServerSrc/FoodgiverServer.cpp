@@ -188,7 +188,7 @@ auto FgHandler::options(restinio::request_handle_t req, restinio::router::route_
 }
 
 // Binds the handler functions to HTTP requests!
-auto server_handler()
+auto FgServer::server_handler()
 {
     auto router = std::make_unique<router_t>();
     auto handler = std::make_shared<FgHandler>();
@@ -222,7 +222,7 @@ auto server_handler()
 }
 
 // Wrapper around starting the server
-int run(){
+int FgServer::run(){
     using namespace std::chrono;
     
     try{    

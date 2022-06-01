@@ -6,8 +6,8 @@ using std::cout;
 int main(void){
 
     cout << "Main online\n";
-    
-    return run();
+    FgServer server;
+    return server.run();
 }
 
 
