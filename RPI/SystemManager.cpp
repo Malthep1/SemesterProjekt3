@@ -1,7 +1,7 @@
     #include "SystemManager.hpp"
     // 
     #define PATHNAME "/home/stud/git/SemesterProjekt3/RPI/dat/settings.dat"
-    #define BUTTONPATH "/dev/mygpio19"
+    #define BUTTONPATH "/dev/button"
     #define WATCH_FLAGS                 IN_CLOSE_WRITE
     #define EVENT_SIZE                  (sizeof(struct inotify_event))
     #define WATCH_DELAY_MS               100
@@ -19,6 +19,13 @@
         lt_ = new Thread(listener_);
         lt_->start();
         std::cout << "SettingsListener Started\n";
+    }
+
+    void SystemManager::MainThread::listenButtonUpdate(MsgQueue* msgQueue){
+        ButtonListenerThread *buttListener_ = new ButtonListenerThread(msgQueue);
+        bt_ = new Thread(buttListener_);
+        bt_->start();
+        std::cout << "ButtonListener Started\n";
     }
 
     void SystemManager::MainThread::waitFeedingTime(MsgQueue * msgQueue, Setting * cs){
@@ -50,11 +57,11 @@
         std::cout << "MAIN LOOP ONLINE\n";
 
         std::cout << "Requesting Treat\n";
-        cmdCtrl.requestTreat();
-        osapi::sleep(2000);
-        cmdCtrl.getTreatRequestAnswer();
+        //cmdCtrl.requestTreat();
+        //osapi::sleep(2000);
+        //cmdCtrl.getTreatRequestAnswer();
         //main loop
-        
+        listenButtonUpdate(cmdCtrl.getMessageQueue());
         while(true){
             cmdCtrl.dispatchCommand();
         }
@@ -154,32 +161,37 @@
 
     }
 
-    void SystemManager::ButtonListenerThread::run(){
+    void SystemManager::MainThread::ButtonListenerThread::run(){
         int newVal;
+        std::string test("BUTTON LISTENER\n");
         while(newVal != -1){
             newVal = checkButtonState();
             if(newVal != oldVal){
-                //msgQueue();
+                
+                UartString* msg = new UartString;
+                msg->response = test;
+                msgQueue->send(3, msg);
+                printf("Button interrupt triggered\n");
                 oldVal = newVal;
             }
+            osapi::sleep(80);
         }
     }
 
-    int SystemManager::ButtonListenerThread::checkButtonState(){
+    int SystemManager::MainThread::ButtonListenerThread::checkButtonState(){
         clearBuf();
         fd = open(BUTTONPATH, O_RDONLY);
         if(fd == -1){
+            printf("INVALID PATH FOR BUTTON LISTENER\n");
             return fd;
         }
-
         read(fd, buff, 2);
         int val = atoi(buff);
-        printf("%i", val);
         close(fd);
         return val;
     }
 
-    void SystemManager::ButtonListenerThread::clearBuf(){
+    void SystemManager::MainThread::ButtonListenerThread::clearBuf(){
         memset(buff, 0, sizeof(buff));
     }
 
