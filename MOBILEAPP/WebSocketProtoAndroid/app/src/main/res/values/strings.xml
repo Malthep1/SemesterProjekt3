@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">FoodgiverConnect</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="display_connect">Connect to Foodgiver service</string>
+    <string name="display_connect_success">You are now connected to Foodgiver server! You will receive notifications when your pet presses the Treat Button :)</string>
+    <string name="display_connect_fail">Oops... Something went wrong! Try again in a minute. </string>
+    <string name="button_connect">CONNECT!</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title">Foodgiver</string>
+    <string name="notification_treat">treat notification</string>
+    <string name="not_channel_name">notification channel</string>
+    <string name="not_channel_desc">This channel allows treat and info notifications from Foodgiver Server</string>
+    <string name="treat_notification_text">Your pet just messaged you :)</string>
+    <string name="not_channel_id">channel 1</string>
+    <string name="treat_request_display">Your pet asks for a treat!</string>
+    <string name="button_allow">ALLOW</string>
+    <string name="button_deny">DENY</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="title_activity_treat_request">Treat request</string>
+    <string name="title_activity_treat">ActivityTreat</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="display_treat_request">Your pet asks for a treat!</string>
+    <string name="display_treat_allowed">Treat allowed!</string>
+    <string name="display_treat_denied">Treat denied!</string>
+    <string name="display_auth">Please enter your foodgiver device number:</string>
+    <string name="button_save">Save</string>
+    <string name="edittext_auth">Enter your device number</string>
+</resources>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/ConnectFragment">
+
+    <fragment
+        android:id="@+id/ConnectFragment"
+        android:name="com.example.websocketprotoandroid.ConnectFragment"
+        android:label="@string/title"
+        tools:layout="@layout/connect_fragment">
+
+        <action
+            android:id="@+id/action_FirstFragment_to_SecondFragment"
+            app:destination="@id/ShowConnectedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ShowConnectedFragment"
+        android:name="com.example.websocketprotoandroid.ShowConnected"
+        android:label="@string/title"
+        tools:layout="@layout/fragment_second">
+        <action
+            android:id="@+id/action_to_fragment_treat_request"
+            app:destination="@id/ShowTreatRequest" />
+    </fragment>
+    <fragment
+        android:id="@+id/ShowTreatRequest"
+        android:name="com.example.websocketprotoandroid.ShowTreatRequest"
+        android:label="@string/title"
+        tools:layout="@layout/fragment_treat_request">
+        <action
+            android:id="@+id/action_to_request_reply"
+            app:destination="@id/FragmentRequestReply" />
+    </fragment>
+    <fragment
+        android:id="@+id/FragmentRequestReply"
+        android:name="com.example.websocketprotoandroid.ShowUserChoice"
+        android:label="@string/title"
+        tools:layout="@layout/fragment_request_reply">
+        <action
+            android:id="@+id/action_to_fragment_treat_request"
+            app:destination="@id/ShowTreatRequest" />
+    </fragment>
+    <fragment
+        android:id="@+id/AuthFragment"
+        android:name="com.example.websocketprotoandroid.AuthFragment"
+        android:label="@string/title"
+        tools:layout="@layout/fragment_auth">
+        <action
+            android:id="@+id/action_to_connect_screen"
+            app:destination="@id/ConnectFragment" />
+    </fragment>
+    <action
+        android:id="@+id/global_action_to_authenticate"
+        app:destination="@id/AuthFragment"
+        app:popUpTo="@id/AuthFragment" />
+    <action
+        android:id="@+id/global_action_to_request_reply"
+        app:destination="@id/FragmentRequestReply"
+        app:popUpTo="@id/FragmentRequestReply" />
+    <action
+        android:id="@+id/global_action_to_treat_request"
+        app:destination="@id/ShowTreatRequest"
+        app:popUpTo="@id/ShowTreatRequest" />
+</navigation>
