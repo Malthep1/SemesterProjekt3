@@ -5,8 +5,9 @@ DEPS=$(addprefix $(BUILD_DIR)/,$(SOURCES:.cpp=.d))
 EXE=prog
 CXXFLAGS=-DOS_LINUX -I$(BASEPATH)inc
 ARCH?=arm
+TARGET?=target
 BASEPATH=../inc/OSApiStudent/
-LIBPATH=$(BASEPATH)lib/target/release/
+LIBPATH=$(BASEPATH)lib/$(TARGET)/release/
 LNKFLAGS=-L$(LIBPATH) -lOSApi -lrt -lpthread
 # Making for x86 -64 e.g. x86 -64 (the architecture employed)
 # > make ARCH=x86 -64
