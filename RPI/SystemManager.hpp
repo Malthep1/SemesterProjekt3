@@ -58,8 +58,6 @@ private:
             currentSetting.treatLimit = 3;
             currentSetting.treatRequestsEnabled = true;
             currentSetting.treatsEnabled = true;
-            listenSettingsUpdate();
-            waitFeedingTime();
         };
     private:
         void run();

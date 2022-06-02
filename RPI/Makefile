@@ -39,3 +39,5 @@ endif
 clean:
 	rm -d build/arm/ -rf *.o *.d prog
 	rm -d build/x86-64/ -rf *.o *.d prog
+	mkdir build/arm
+	mkdir build/x86-64

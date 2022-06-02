@@ -23,9 +23,8 @@ void SystemManager::MainThread::listenSettingsUpdate(){
     Setting * cs =  &currentSetting;
     ListenerThread listener_(cs, cmdCtrl.getMessageQueue());   
     lt_ = new Thread(&listener_);
-
     lt_->start();
-
+    std::cout << "SettingsListener Started\n";
 }
 
 void SystemManager::MainThread::waitFeedingTime(){
@@ -34,11 +33,13 @@ void SystemManager::MainThread::waitFeedingTime(){
     tt_ = new Thread(&timeThread);
     //
     tt_->start();
-
+    std::cout << "TimeThread Started\n";
 }
 //main Thread run()
 void SystemManager::MainThread::run(){
-
+    //Create Threads
+    listenSettingsUpdate();
+    waitFeedingTime();
     
     //main loop
     std::cout << "MAIN LOOP ONLINE\n";
