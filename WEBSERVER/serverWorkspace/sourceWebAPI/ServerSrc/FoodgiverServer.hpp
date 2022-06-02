@@ -46,13 +46,7 @@ private:
     std::string handleWsMessage(ws_handle wsh, std::string payload);
     ws_registry_t m_registry;
 
-    void sendMessage(int fg_id, std::string message){
-        for(auto [k,v] : m_registry){
-            if(v.fg_id == fg_id){
-                v.ws_handle->send_message(rws::final_frame, rws::opcode_t::text_frame, message);
-            }
-        }     
-    }
+    void sendMessage(int fg_id, std::string message);
 
     template <typename RESP>
     static RESP
@@ -60,10 +54,7 @@ private:
     {
         resp
             .append_header("Server", "Foodgiver Server /v.0.9")
-            .append_header_date_field()
-            .append_header("Content-Type", "application/json")
-            .append_header(restinio::http_field::access_control_allow_origin, "*");
-
+            .append_header_date_field();
             return resp;
     }
 

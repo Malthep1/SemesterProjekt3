@@ -52,14 +52,17 @@ using traits_t =
         // Look for the correct entry in the websocket connection registry
         for(auto [k, v] : m_registry){
             if(v.fg_id == dev_id){
+                std::cout << "Setting REPLY: " << v.reply << "\n";
                 resp.set_body(v.reply);
-                v.reply = REPLY_UNDEF;
+                m_registry.find(k)->second.reply = REPLY_UNDEF;
+                std::cout << "After change: " << v.reply << "\n";
                 found = true;
+                return resp.done();
             }
         }
         if(!found){
             resp.set_body("Mobile app not found");
-        }  
+        } 
      }
      catch(const std::exception &)
     {
@@ -69,7 +72,7 @@ using traits_t =
  }
 
 /* This handler checks if a connection with dev_id written in parameter is present
-*  If so, it sends a treat request message. Otherwise sends "No mobile app found" response */
+*  If so, it sends a treat request message via the correct ws handle. Otherwise sends "No mobile app found" response */
 auto FgHandler::onPostReqTreat(const restinio::request_handle_t& req, rr::route_params_t params){
     auto resp = init_resp(req->create_response());
 try{
@@ -95,8 +98,8 @@ try{
     }
     return resp.done();
 }
-/* Websocket message handler: determines what to do after a message from 
-*  mobile app has been received*/
+/* Websocket message handler: parses a message from FoodgiverConnect
+*  and acts according to Server protocol */
 std::string FgHandler::handleWsMessage(ws_handle wsh, std::string payload){
     std::cout << "PAYLOAD RECEIVED: " << payload << "\n";
     // Read 3 characters after '_' to figure out the fg_id : id of the device to set data for
@@ -137,7 +140,6 @@ auto FgHandler::onWebsocketConnect(const restinio::request_handle_t& req, rr::ro
     if(restinio::http_connection_header_t::upgrade == req->header().connection())
     {
         std::cout << "RECEIVED WS\n";
-        int fg_id;
         auto wsh = rws::upgrade<traits_t>(*req, rws::activation_t::immediate,
         [this](auto wsh, auto m){
             if(rws::opcode_t::text_frame == m->opcode() ||
@@ -167,6 +169,7 @@ auto FgHandler::onWebsocketConnect(const restinio::request_handle_t& req, rr::ro
         });
         fgSocketData_t data = {-1, wsh, REPLY_UNDEF};
         m_registry.emplace(wsh->connection_id(), data);
+        std::cout << m_registry.size() << ": size of m_registry\n";
 
         init_resp(req->create_response()).done();
 
@@ -175,10 +178,17 @@ auto FgHandler::onWebsocketConnect(const restinio::request_handle_t& req, rr::ro
     return restinio::request_rejected();
 }
 
+void FgHandler::sendMessage(int fg_id, std::string message){
+    for(auto [k,v] : m_registry){
+        if(v.fg_id == fg_id){
+            v.ws_handle->send_message(rws::final_frame, rws::opcode_t::text_frame, message);
+        }
+    }     
+}
+
 // Unimplemented options : PATCH, DELETE, PUT
 // Reason : No need to update or delete data in this implementation. KISS
 auto FgHandler::options(restinio::request_handle_t req, restinio::router::route_params_t){
-    printf("request options called!!!\n");
     const auto methods = "OPTIONS, GET, POST";
     auto resp = init_resp(req->create_response());
     resp.append_header(restinio::http_field::access_control_allow_methods, methods);
@@ -193,11 +203,13 @@ auto FgServer::server_handler()
     auto router = std::make_unique<router_t>();
     auto handler = std::make_shared<FgHandler>();
 
+    // Lambda function: used to bind the method in parameter "method" to the correct route
     auto by = [&] (auto method){
         using namespace std::placeholders;
         return std::bind(method, handler, _1, _2);
     };
 
+    // If not allowed, create this response and close connection
     auto method_not_allowed = [] (const auto & req, auto){
         return req->create_response(restinio::status_method_not_allowed())
             .connection_close()
