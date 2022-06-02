@@ -1,6 +1,7 @@
     #include "SystemManager.hpp"
     // 
     #define PATHNAME "/home/stud/git/SemesterProjekt3/RPI/dat/settings.dat"
+    #define BUTTONPATH "/dev/mygpio19"
     #define WATCH_FLAGS                 IN_CLOSE_WRITE
     #define EVENT_SIZE                  (sizeof(struct inotify_event))
     #define WATCH_DELAY_MS               100
@@ -151,6 +152,35 @@
             osapi::sleep(60000);    
         }
 
+    }
+
+    void SystemManager::ButtonListenerThread::run(){
+        int newVal;
+        while(newVal != -1){
+            newVal = checkButtonState();
+            if(newVal != oldVal){
+                //msgQueue();
+                oldVal = newVal;
+            }
+        }
+    }
+
+    int SystemManager::ButtonListenerThread::checkButtonState(){
+        clearBuf();
+        fd = open(BUTTONPATH, O_RDONLY);
+        if(fd == -1){
+            return fd;
+        }
+
+        read(fd, buff, 2);
+        int val = atoi(buff);
+        printf("%i", val);
+        close(fd);
+        return val;
+    }
+
+    void SystemManager::ButtonListenerThread::clearBuf(){
+        memset(buff, 0, sizeof(buff));
     }
 
     int SystemManager::MainThread::ListenerThread::init_inot(){

@@ -55,10 +55,12 @@ private:
     private:
         void run();
         void listenSettingsUpdate(MsgQueue * msgQueue, Setting * cs);
+        void listenButtonUpdate(MsgQueue* msgQueue);
         void waitFeedingTime(MsgQueue * msgQueue, Setting * cs);
         
         Thread* lt_;
         Thread* tt_;
+        Thread* bt_;
 
         class ListenerThread : public ThreadFunctor {
         public:
@@ -75,6 +77,24 @@ private:
             Setting * curSet;
             MsgQueue * msgQueue;
         };
+
+        class ButtonListenerThread : public ThreadFunctor {
+        public:
+            ButtonListenerThread(MsgQueue * msgQueue_) {
+                msgQueue = msgQueue_;
+                fd = -1;
+                oldVal = -1;
+            };
+        private:
+            void run();
+            int checkButtonState();
+            void clearBuf();
+            int fd;
+            int oldVal;
+            char buff[256];
+            MsgQueue * msgQueue;
+        };
+
         class TimeThread : public ThreadFunctor{
         public:
             TimeThread(Setting * curSetting, MsgQueue * msgQueue_) {
