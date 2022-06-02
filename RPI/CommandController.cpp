@@ -35,18 +35,30 @@ void CommandController::handleCommand(osapi::Message* msg, unsigned long id){
         std::cout << "TR HIT\n";
         //Web notificiation 
     }
-    else if(cmsg->response == "STAE"){
-        std::cout << "TA HIT\n";
-        //Dispense treat
-        //dispatchUartCommand("T");
-    }
-    else if(cmsg->response == "STDE"){
-        std::cout << "TD HIT\n";
-        //Denied, do nothing??
-    }
     else if(id == 1){
         char * ptr = strcpy(new char[5], resp.c_str());
         dispatchUartCommand((unsigned char*) ptr);
+    }
+    else if(id == 2){
+        char * ptr = strcpy(new char[5], resp.c_str());
+        dispatchUartCommand((unsigned char*) ptr);
+    }
+    else if(id == 3){
+        char * ptr = strcpy(new char[5], resp.c_str());
+        dispatchUartCommand((unsigned char*) ptr);
+        if(cmsg->response == "STAE"){
+            std::cout << "TA HIT\n";
+            //Dispense treat
+            //dispatchUartCommand("T");
+        }
+        else if(cmsg->response == "STDE"){
+            std::cout << "TD HIT\n";
+            //Denied, do nothing??
+        }
+    }
+    else if(id == 9){
+        int deleteId = std::stoi(cmsg->response);
+        web_.deleteThread(deleteId);
     }
     else{
         std::cout << "ERROR, returning NACK\n";
@@ -72,11 +84,8 @@ void CommandController::getTreatRequestAnswer(){
 }
 
 void CommandController::dispatchCommand(){
-    std::cout << "QueueSize: " << std::to_string(msgQueue_.size()) << "\n";
-    if(msgQueue_.size() > 0 ){
-        std::cout << "Message Detected\n";
         Message* msg = msgQueue_.receive(id);
         handleCommand(msg, id);
         delete msg;
-    }
+    
 }

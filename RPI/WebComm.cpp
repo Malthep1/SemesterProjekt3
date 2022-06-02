@@ -1,26 +1,42 @@
 #include "WebComm.hpp"
 
 void WebComm::createWebCommListenerThread(MsgQueue* msgQueue){
-    WebCommListenerThread lt(msgQueue);
-    Thread* thread_listener = new Thread(&lt); 
+    id++;
+    WebCommListenerThread * lt = new WebCommListenerThread(msgQueue, id);
+    Thread* thread_listener = new Thread(lt); 
+    threadStruct tStruct = {
+        lt,
+        thread_listener
+    };
+    threadPool[id] = tStruct;
     thread_listener->start();
-    std::cout << "Started WebCommListenerThread\n";
-    //thread_listener->detach();
-    sleep(1);
+    std::cout << "Started WebCommListenerThread, ID = " << std::to_string(id) <<"\n";
 }
 
 void WebComm::WebCommListenerThread::handleResponse(std::string response){
     responseString* msg = new responseString;
-    if(response == "allow"){
-        string resp("STAE");
+    if(response.find("allow")){
+        string resp("TA");
         msg->response = resp;
-        msgQueue_->send(TA, msg);
+        msgQueue_->send(3, msg);
     }
-    else if(response == "denied"){
-        string resp("STDE");
+    else if(response.find("deny")){
+        string resp("TD");
         msg->response = resp;
-        msgQueue_->send(TD, msg);
+        msgQueue_->send(3, msg);
     }
+    osapi::sleep(1000);
+    responseString* msgDelete = new responseString;
+    std::cout << "delete thread\n";
+    string resp(std::to_string(id));
+    msgDelete->response = resp;
+    msgQueue_->send(9, msgDelete);
+}
+
+void WebComm::deleteThread(int id){
+    threadStruct ts = threadPool[id];
+    delete ts.tp;
+    delete ts.wchread;
 }
 
 void WebComm::WebCommListenerThread::run(){
@@ -34,13 +50,15 @@ void WebComm::WebCommListenerThread::run(){
         }
         answer = getRequestAnswer();
         std::cout << answer;
-        if(answer != "UNDEF"){
+        if(answer.find("allow" || answer.find("deny"))){
             handleResponse(answer);
         }
         i++;
-        sleep(5);
+        if(i == 7){
+            break;
+        }
+        osapi::sleep(10000);
     }
-    std::cout << "Broken!!\n";
 }
 
 void WebComm::postTreatRequest(int devid){
@@ -64,19 +82,20 @@ void WebComm::postNotification(string type){
 string WebComm::WebCommListenerThread::getRequestAnswer(){
     string undef("UNDEF");
     try{
-        
         http::Request req{"http://foodgiver.hopto.org:8080/req_treat/420"};
         const auto response = req.send("GET");
-        std::string resp = std::string{response.body.begin(), response.body.end()} + '\n'; // print the result
-        if(resp == "allow" || resp == "denied"){
-            std::cout << "BINGO\n";
+        std::string resp = std::string{response.body.begin(), response.body.end()} + '\n'; // Save request to variable
+        if(resp.find("deny")){
+            return resp;
+        }
+        else if(resp.find("allow")){
             return resp;
         }
         else {
             return undef;
         }
     }
-    catch (const std::exception& e){
+    catch (const std::exception& e){    
         std::cerr << "Request failed, error: " << e.what() << '\n';
         return undef;
     }

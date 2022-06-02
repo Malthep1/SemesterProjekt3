@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Jun  2 11:01:45 2022
+# Make data base, printed on Thu Jun  2 11:14:07 2022
 
 # Variables
 
@@ -204,6 +204,7 @@ DISPLAY = :0
 USER = stud
 # environment
 DEFAULTS_PATH = /usr/share/gconf/Lubuntu.default.path
+ 
 # default
 MAKE_VERSION := 4.3
 # environment
@@ -277,7 +278,6 @@ GDMSESSION = Lubuntu
 # environment
 SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd/void
 # variable set hash-table stats:
- 
 # Load=132/1024=13%, Rehash=0, Collisions=7/159=4%
 
 # Pattern-specific Variable Values
@@ -344,6 +344,6 @@ GNUmakefile:
 # strcache performance: lookups = 22 / hit rate = 13%
 # hash-table stats:
 # Load=19/8192=0%, Rehash=0, Collisions=0/22=0%
-# Finished Make data base on Thu Jun  2 11:01:45 2022
+# Finished Make data base on Thu Jun  2 11:14:07 2022
 
  

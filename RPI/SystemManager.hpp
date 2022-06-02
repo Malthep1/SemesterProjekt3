@@ -2,10 +2,10 @@
 
 /**
  * @file SystemManager.hpp
- * @author Marcin Szymanek (marcinwszymanek@gmail.com) & Malthe Petersen(0.2 & 0.3 & 0.4 & 0.5)
+ * @author Marcin Szymanek (0.1) & Malthe Petersen (0.2 & 0.3 & 0.4 & 0.5 & 0.6)
  * @brief System Manager Class
- * @version 0.5
- * @date 2022-05-31
+ * @version 0.6
+ * @date 2022-06-02
  * 
  * Purpose is managing the entire system at runtime.
  * 
@@ -51,22 +51,12 @@ private:
     //Main Thread
     class MainThread : public ThreadFunctor {
     public:
-        MainThread() {
-            currentSetting.feedingHour = 15;
-            currentSetting.feedingMinute = 53;
-            currentSetting.foodAmount = 100;
-            currentSetting.treatLimit = 3;
-            currentSetting.treatRequestsEnabled = true;
-            currentSetting.treatsEnabled = true;
-        };
+        MainThread() {};
     private:
         void run();
-        void listenSettingsUpdate();
-        void waitFeedingTime();
-        //Settings Struct
-        Setting currentSetting;
-        // CommandController Object
-        CommandController cmdCtrl;
+        void listenSettingsUpdate(MsgQueue * msgQueue, Setting * cs);
+        void waitFeedingTime(MsgQueue * msgQueue, Setting * cs);
+        
         Thread* lt_;
         Thread* tt_;
 
