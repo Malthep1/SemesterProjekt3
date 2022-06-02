@@ -1,6 +1,6 @@
 #include "SystemManager.hpp"
 // 
-#define PATHNAME "/home/stud/git/SemesterProjekt3/RPI/dat/settings.dat"
+#define PATHNAME "/home/root/settings.dat"
 #define WATCH_FLAGS                 IN_CLOSE_WRITE
 #define EVENT_SIZE                  (sizeof(struct inotify_event))
 #define WATCH_DELAY_MS               100
@@ -13,13 +13,11 @@ void SystemManager::runMain(){
     //cmdCtrl.setupCommunicationModules();
     //cmdCtrl.getTreatRequestAnswer();
     //std::cout << "AFTER PSOC LISTENER\n";
-
-        
+    lt_->join();
+    tt_->join();
     while(true){    
-
         std::cout << "MAIN LOOP ONLINE\n";
-        osapi::sleep(5000);
-        std::cout << "DISPATCHING COMMAND\n";
+        osapi::sleep(60000);
         cmdCtrl.dispatchCommand();
         std::cout << "COMMAND DISPATCHED\n";
         //cmdCtrl.requestTreat();
@@ -28,15 +26,11 @@ void SystemManager::runMain(){
 
 void SystemManager::listenSettingsUpdate(){
     Setting * cs =  &currentSetting;
-    ListenerThread listener_(cs);   
+    ListenerThread listener_(cs, cmdCtrl.getMessageQueue());   
     lt_ = new Thread(&listener_);
     //
     lt_->start();
 
-    // DEBUG:
-    //lt_->detach();
-
-    sleep(3);
 }
 
 void SystemManager::waitFeedingTime(){
@@ -46,7 +40,6 @@ void SystemManager::waitFeedingTime(){
     //
     tt_->start();
 
-    sleep(1);
 }
 
 // Check https://linuxhint.com/inotify_api_c_language/ for good example of using inotify
@@ -75,7 +68,12 @@ void SystemManager::ListenerThread::run(){
                 boost::split(settings, settingString, boost::is_any_of(","));
                 //LOAD INTO SETTINGS STRUCT
                 //KILL TIMER THREAD AND START A NEW ONE
-
+                std::cout << "TESTING QUEUE\n";
+                std::string test("TEST");
+                UartString* msg = new UartString;
+                msg->response = test;
+                msgQueue->send(2, msg);
+                std::cout << "MESSAGE SENT\n";
             }
             
             i = i + EVENT_SIZE + event->len;
@@ -86,36 +84,51 @@ void SystemManager::ListenerThread::run(){
     }
 }
 
+
 void SystemManager::TimeThread::passToCommandController(std::string command){
-    CommandString* msg = new CommandString;
+    std::cout << "CREATING MESSAGE\n";
+    UartString* msg = new UartString;
+    std::cout << "SETTING RESPONSE\n";
     msg->response = command;
-    msgQueue->send(123123, msg);
+    std::cout << "SENDING MESSAGE\n";
+    msgQueue->send(1, msg);
+    std::cout << "MESSAGE SENT\n";
 }
 
 void SystemManager::TimeThread::run(){
     std::cout << "TIME THREAD ONLINE\n";
-    std::cout << "CURRENT SETTING : { Hour: " << std::to_string(curSet->feedingHour) << " Minute: " << std::to_string(curSet->feedingMinute) << " } \n";
+    int feedingHour = curSet->feedingHour;
+    int feedingMinute = curSet->feedingMinute;
+    int foodAmount = curSet->foodAmount;
+    std::cout << "CURRENT SETTING : { Hour: " << std::to_string(feedingHour) << " Minute: " << std::to_string(feedingMinute)<< " Amount: " << std::to_string(foodAmount) << " } \n";
     
     time_t t = time(NULL);
     struct tm *tmp = gmtime(&t);    
     bool isFeedingTime = false;
+    int currentHour = tmp->tm_hour;
+    int currentMinute = tmp->tm_min;
     std::cout << "Hour: " << std::to_string(tmp->tm_hour) << " Minute: " << std::to_string(tmp->tm_min) << "\n";
+    
     while(!isFeedingTime){
+
         t = time(NULL);
         tmp = gmtime(&t);
-        if(curSet->feedingHour == tmp->tm_hour){
-            if(curSet->feedingMinute == tmp->tm_min){
-                std::cout << "Bingo \n";
+        currentHour = tmp->tm_hour;
+        currentMinute = tmp->tm_min;
+        std::cout << "{ Hour: " << std::to_string(tmp->tm_hour) << " Minute: " << std::to_string(tmp->tm_min) << " } \n";
+        if(feedingHour == currentHour){
+            if(feedingMinute == currentMinute){
                 isFeedingTime = true;
             }
         }
-        osapi::sleep(30000);
-        std::cout << "{ Hour: " << std::to_string(tmp->tm_hour) << " Minute: " << std::to_string(tmp->tm_min) << " } \n";
+        if(!isFeedingTime){
+            osapi::sleep(30000);
+        }
     }
     std::cout << "FEEDING TIME\n";
     string food = "F";
-    string amount = std::to_string(curSet->foodAmount);
-    passToCommandController(food+amount);
+    string amountString = std::to_string(foodAmount);
+    passToCommandController(food+amountString);
 }
 
 int SystemManager::ListenerThread::init_inot(){

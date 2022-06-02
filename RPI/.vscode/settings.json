@@ -58,7 +58,13 @@
         "typeinfo": "cpp",
         "semaphore": "cpp",
         "map": "cpp",
-        "bitset": "cpp"
+        "bitset": "cpp",
+        "complex": "cpp",
+        "list": "cpp",
+        "set": "cpp",
+        "sstream": "cpp",
+        "typeindex": "cpp",
+        "variant": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled"
 }

@@ -24,9 +24,6 @@ using osapi::MsgQueue;
 using osapi::Message;
 using std::string;
 
-struct uartString : public osapi::Message{
-    std::string response; 
-};
 
 
 class CommandController{

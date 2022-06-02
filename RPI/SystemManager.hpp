@@ -25,10 +25,8 @@
 
 using osapi::Thread;
 using osapi::ThreadFunctor;
-
-struct CommandString : public osapi::Message{
-    std::string response; 
-};
+using osapi::MsgQueue;
+using osapi::Message;
 
 struct Setting
 {
@@ -51,7 +49,7 @@ public:
         currentSetting.treatRequestsEnabled = true;
         currentSetting.treatsEnabled = true; 
         listenSettingsUpdate();
-        waitFeedingTime();
+        //waitFeedingTime();
     };
     void runMain();
 private:
@@ -64,8 +62,9 @@ private:
     // Implementation of listener thread goes here
     class ListenerThread : public ThreadFunctor{
     public:
-        ListenerThread(Setting * curSetting) : inotify_fd(NULL) {
+        ListenerThread(Setting * curSetting, MsgQueue * msgQueue_) : inotify_fd(NULL) {
             curSet = curSetting;
+            msgQueue = msgQueue_;
         };
     private:
         void run();
@@ -74,11 +73,13 @@ private:
         int inotify_fd;
         int inotify_watch_fd;
         Setting * curSet;
+        MsgQueue * msgQueue;
     };
     class TimeThread : public ThreadFunctor{
     public:
-        TimeThread(Setting * curSetting, MsgQueue * msgQueue_) : msgQueue(msgQueue_) {
+        TimeThread(Setting * curSetting, MsgQueue * msgQueue_) {
             curSet = curSetting;
+            msgQueue = msgQueue_;
         };
     private:
         void run();

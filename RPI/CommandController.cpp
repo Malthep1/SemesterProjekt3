@@ -7,9 +7,10 @@ MsgQueue* CommandController::getMessageQueue(){
 }
 
 void CommandController::handleCommand(osapi::Message* msg, unsigned long id){
+    std::cout << "HANDLER\n";
     UartString* cmsg = static_cast<UartString*>(msg);
     string resp = cmsg->response;
-    
+    std::cout << "Response: " << resp << "\n";
     if(cmsg->response == "SACKE"){
         //std::cout << "SACKE HIT\n";
         //ACK
@@ -43,7 +44,7 @@ void CommandController::handleCommand(osapi::Message* msg, unsigned long id){
         std::cout << "TD HIT\n";
         //Denied, do nothing??
     }
-    else if(id == 123123){
+    else if(id == 1){
         char * ptr = strcpy(new char[5], resp.c_str());
         dispatchUartCommand((unsigned char*) ptr);
     }
@@ -72,7 +73,11 @@ void CommandController::getTreatRequestAnswer(){
 
 void CommandController::dispatchCommand(){
     std::cout << "Waiting for command\n";
-    Message* msg = getMessageQueue()->receive(id);
-    handleCommand(msg, id);
-    delete msg;
+    std::cout << "QueueSize: " << std::to_string(msgQueue_.size()) << "\n";
+    if(msgQueue_.size() > 0 ){
+        std::cout << "Message Detected\n";
+        Message* msg = msgQueue_.receive(id);
+        handleCommand(msg, id);
+        delete msg;
+    }
 }
