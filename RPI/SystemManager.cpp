@@ -13,18 +13,13 @@ void SystemManager::runMain(){
     //cmdCtrl.setupCommunicationModules();
     //cmdCtrl.getTreatRequestAnswer();
     //std::cout << "AFTER PSOC LISTENER\n";
-    lt_->join();
-    tt_->join();
-    while(true){    
-        std::cout << "MAIN LOOP ONLINE\n";
-        osapi::sleep(60000);
-        cmdCtrl.dispatchCommand();
-        std::cout << "COMMAND DISPATCHED\n";
-        //cmdCtrl.requestTreat();
-    }
+    MainThread mt();   
+    mt_ = new Thread(&mt);
+    mt_->start();
+    mt_->join();
 }
 
-void SystemManager::listenSettingsUpdate(){
+void SystemManager::MainThread::listenSettingsUpdate(){
     Setting * cs =  &currentSetting;
     ListenerThread listener_(cs, cmdCtrl.getMessageQueue());   
     lt_ = new Thread(&listener_);
@@ -33,7 +28,7 @@ void SystemManager::listenSettingsUpdate(){
 
 }
 
-void SystemManager::waitFeedingTime(){
+void SystemManager::MainThread::waitFeedingTime(){
     Setting * cs =  &currentSetting;
     TimeThread timeThread(cs, cmdCtrl.getMessageQueue());   
     tt_ = new Thread(&timeThread);
@@ -41,9 +36,20 @@ void SystemManager::waitFeedingTime(){
     tt_->start();
 
 }
+//main Thread run()
+void SystemManager::MainThread::run(){
+
+    
+    //main loop
+    std::cout << "MAIN LOOP ONLINE\n";
+    while(true){
+        cmdCtrl.dispatchCommand();
+        osapi::sleep(5000);
+    }
+}
 
 // Check https://linuxhint.com/inotify_api_c_language/ for good example of using inotify
-void SystemManager::ListenerThread::run(){
+void SystemManager::MainThread::ListenerThread::run(){
     printf("Made a new listener thread :)) \n");
     std::vector<string> settings;
     init_inot();
@@ -85,7 +91,7 @@ void SystemManager::ListenerThread::run(){
 }
 
 
-void SystemManager::TimeThread::passToCommandController(std::string command){
+void SystemManager::MainThread::TimeThread::passToCommandController(std::string command){
     std::cout << "CREATING MESSAGE\n";
     UartString* msg = new UartString;
     std::cout << "SETTING RESPONSE\n";
@@ -95,7 +101,7 @@ void SystemManager::TimeThread::passToCommandController(std::string command){
     std::cout << "MESSAGE SENT\n";
 }
 
-void SystemManager::TimeThread::run(){
+void SystemManager::MainThread::TimeThread::run(){
     std::cout << "TIME THREAD ONLINE\n";
     int feedingHour = curSet->feedingHour;
     int feedingMinute = curSet->feedingMinute;
@@ -131,7 +137,7 @@ void SystemManager::TimeThread::run(){
     passToCommandController(food+amountString);
 }
 
-int SystemManager::ListenerThread::init_inot(){
+int SystemManager::MainThread::ListenerThread::init_inot(){
     inotify_fd = inotify_init();
     if(inotify_fd < 0){
         printf("Error initializing inotify instance\n");

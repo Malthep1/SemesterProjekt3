@@ -1,4 +1,6 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+make: *** No rule to make target 'all'.  Stop.
+
 # GNU Make 4.3
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2020 Free Software Foundation, Inc.
@@ -6,7 +8,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed May 25 22:13:39 2022
+# Make data base, printed on Thu Jun  2 09:21:13 2022
 
 # Variables
 
@@ -17,11 +19,9 @@ GDK_BACKEND = x11
 # environment
 LC_ALL = C
 # environment
-NO_AT_BRIDGE = 1
-# environment
 SNAP_INSTANCE_KEY = 
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-88546956-dd3d-435a-951f-fc43894d00b3.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-9e785ef3-5510-4197-bfa2-376fcad7fd11.sock
 # environment
 MANDATORY_PATH = /usr/share/gconf/Lubuntu.mandatory.path
 # environment
@@ -105,7 +105,7 @@ SNAP_REEXEC =
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 8133
+VSCODE_PID = 10057
 # environment
 XDG_SESSION_TYPE = x11
 # automatic
@@ -278,9 +278,7 @@ GDMSESSION = Lubuntu
 SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd/void
 # variable set hash-table stats:
  
-make: *** No rule to make target 'all'.  Stop.
-
-# Load=133/1024=13%, Rehash=0, Collisions=7/160=4%
+# Load=132/1024=13%, Rehash=0, Collisions=7/159=4%
 
 # Pattern-specific Variable Values
 
@@ -346,6 +344,6 @@ GNUmakefile:
 # strcache performance: lookups = 22 / hit rate = 13%
 # hash-table stats:
 # Load=19/8192=0%, Rehash=0, Collisions=0/22=0%
-# Finished Make data base on Wed May 25 22:13:39 2022
+# Finished Make data base on Thu Jun  2 09:21:13 2022
 
  

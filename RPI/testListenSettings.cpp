@@ -3,5 +3,5 @@
 int main(void){
     printf("Main online\n");
     SystemManager sys_manager;
-    sys_manager.runMain();
+    printf("Program finished\n");
 }

@@ -72,7 +72,6 @@ void CommandController::getTreatRequestAnswer(){
 }
 
 void CommandController::dispatchCommand(){
-    std::cout << "Waiting for command\n";
     std::cout << "QueueSize: " << std::to_string(msgQueue_.size()) << "\n";
     if(msgQueue_.size() > 0 ){
         std::cout << "Message Detected\n";
