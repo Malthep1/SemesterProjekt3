@@ -13,8 +13,8 @@ void SystemManager::runMain(){
     //cmdCtrl.setupCommunicationModules();
     //cmdCtrl.getTreatRequestAnswer();
     //std::cout << "AFTER PSOC LISTENER\n";
-    MainThread mt();   
-    mt_ = new Thread(&mt);
+    MainThread * mt = new MainThread();   
+    mt_ = new Thread(mt);
     mt_->start();
     mt_->join();
 }
@@ -23,7 +23,7 @@ void SystemManager::MainThread::listenSettingsUpdate(){
     Setting * cs =  &currentSetting;
     ListenerThread listener_(cs, cmdCtrl.getMessageQueue());   
     lt_ = new Thread(&listener_);
-    //
+
     lt_->start();
 
 }
