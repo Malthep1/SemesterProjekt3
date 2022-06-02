@@ -16,9 +16,8 @@
     goto label;             \
     } while(0)
 
+// REMEMBER!!! CHANGE TO GPIO 19 OR WHATEVER WE USE FOR THE BUTTON!!!
 #define GV 16
-
-#define IRQF_TRIGGER_RISING 0x00000001
 
 const int first_minor = 0;
 const int max_devices = 255;
@@ -30,19 +29,6 @@ static DECLARE_WAIT_QUEUE_HEAD(wq);
 static int flag = 0;
 static int isr_gpio_value;
 static int proc_gpio_value;
-
-static irqreturn_t mygpio_isr(int irq, void *dev_id) {
-    
-    printk("IRQ line %i",gpio_to_irq(GV));
-
-    isr_gpio_value = gpio_get_value(GV);
-
-    flag = 1;
-
-    wake_up_interruptible(&wq);
-
-    return IRQ_HANDLED;
-}
 
 static ssize_t button_state_store(struct device *dev, struct device_attribute * attr, const char *buf, size_t size)
 {
@@ -98,7 +84,6 @@ ssize_t mygpio_read(struct file *filep, char __user *buf,
             size_t count, loff_t *f_pos)
 {
 
-    wait_event_interruptible(wq,flag!=0);
     flag = 0;
 
     char kbuf[12];
@@ -106,8 +91,8 @@ ssize_t mygpio_read(struct file *filep, char __user *buf,
     value = gpio_get_value(GV);
     proc_gpio_value = gpio_get_value(GV);
     len = count< 12 ? count: 12;   /* Truncate to smallest */
-    //len = snprintf(kbuf, len, "%i", value); /* Create string */
-    len = sprintf(buf, "%i %i", isr_gpio_value, proc_gpio_value);
+    len = snprintf(kbuf, len, "%i", value); /* Create string */
+    //len = sprintf(buf, "%i", proc_gpio_value);
     int ctu = copy_to_user(buf, kbuf, ++len);
     if(ctu < 0){pr_info("Error reading GPIO\n");}
     *f_pos += len;
@@ -141,7 +126,7 @@ struct file_operations button_fops = {
 static int mygpio_probe(struct platform_device *bdev)
 {
     printk("Hello from probe %s\n", bdev->name);
-    device_create(button_class, NULL, MKDEV(MAJOR(denvo), MINOR(denvo)), NULL, "mygpio%d", GV);
+    device_create(button_class, NULL, MKDEV(MAJOR(denvo), MINOR(denvo)), NULL, "button", GV);
     return 0;
 }
 
@@ -162,7 +147,7 @@ static struct platform_driver my_button_driver =
     .probe = mygpio_probe,
     .remove = mygpio_remove,
     .driver = {
-        .name = "My_button_old_name",
+        .name = "button_drv",
         .of_match_table = my_button_device_match,
         .owner = THIS_MODULE, }, 
 };
@@ -190,17 +175,16 @@ static int __init mygpio_init(void)
 
     button_class->dev_groups = button_groups;
 
+    err = platform_driver_register(&my_button_driver);
+
     cdev_init(&button_cdev, &button_fops);
     err = cdev_add(&button_cdev, denvo, 255);
     if (err) ERRGOTO(CDEV_INIT_ADD_FAILED,"Failed to add cdev");
 
-    err = request_irq(gpio_to_irq(GV), mygpio_isr, IRQF_TRIGGER_LOW, "GPIO ISR", NULL);
-    if (err < 0)
-    ERRGOTO(INTERRUPT_FAILED,"Interrupt failed");
+
 
     return err;
 
-    INTERRUPT_FAILED: free_irq(gpio_to_irq(GV),NULL);
     CDEV_INIT_ADD_FAILED: class_destroy(button_class);
     CLASS_CREATE_FAILED: unregister_chrdev_region(first_minor, max_devices);
     ALLOC_MAJOR_MINOR_FAILED: 
@@ -212,7 +196,6 @@ static int __init mygpio_init(void)
 
 static void __exit mygpio_exit(void)
 {
-    free_irq(gpio_to_irq(GV),NULL);
     cdev_del(&button_cdev);
     class_destroy(button_class);
     unregister_chrdev_region(first_minor, max_devices);

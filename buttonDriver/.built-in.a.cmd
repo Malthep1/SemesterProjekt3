@@ -1,0 +1,1 @@
+cmd_/mnt/workspace/FoodGiver/branchButton/SemesterProjekt3/buttonDriver/built-in.a := rm -f /mnt/workspace/FoodGiver/branchButton/SemesterProjekt3/buttonDriver/built-in.a; arm-poky-linux-gnueabi-ar cDPrST /mnt/workspace/FoodGiver/branchButton/SemesterProjekt3/buttonDriver/built-in.a 
