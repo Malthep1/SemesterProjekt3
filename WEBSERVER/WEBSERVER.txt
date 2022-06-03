@@ -1,0 +1,10 @@
+Source code to the server is found at
+/serverWorkspace/ServerSrc
+
+Build by calling make in shell
+
+After building, the executable is found at 
+/serverWorkspace/ServerSrc/bin/x86-64/release/FoodgiverServer
+
+
+Marcin Szymanek <marcinwszymanek@gmail.com>
