@@ -2,8 +2,8 @@
 
 ARCH?=x86-64
 
-BINNAME=restinio_test
-CXXFLAGS=-std=c++14 -DRESTINIO_USE_BOOST_ASIO=shared
+BINNAME=FoodgiverServer
+CXXFLAGS=-std=c++17 -DRESTINIO_USE_BOOST_ASIO=shared
 LDDFLAGS=
 
 # Debug build? debug is default
