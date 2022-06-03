@@ -3,6 +3,7 @@
 // Simple restinio server
 // Updated to use websockets!
 
+#define HOST_IP "192.168.1.20"
 
 
 using traits_t = 
@@ -240,7 +241,7 @@ int FgServer::run(){
     try{    
         restinio::run(
             restinio::on_this_thread<traits_t>()
-                .address( "192.168.1.20" )
+                .address( HOST_IP )
                 .request_handler(server_handler())
                 .read_next_http_message_timelimit( 10s )
                 .write_http_response_timelimit( 1s )
