@@ -1,0 +1,33 @@
+{
+    "env": {
+    "sourcetreePath": "/home/stud/sources/rpi-5.4.83",
+    "sysrootPath": "/opt/poky/3.1.4/sysroots/x86_64-pokysdk-linux" 
+    },
+    "configurations": [
+        {
+            "name": "Rpizw",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${sourcetreePath}/arch/arm/include/**",
+                "${sourcetreePath}/include/**" 
+            ],
+            "defines": [
+                "__KERNEL__",
+                "__GNUC__" 
+            ],
+            "compilerPath": "${sysrootPath}/usr/bin/arm-poky-linux-gnueabi/arm-poky-linux-gnueabi-gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x86",
+            "forcedInclude": [
+                "${sourcetreePath}/include/generated/autoconf.h",
+                "${sourcetreePath}/include/linux/kconfig.h" 
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": "${workspaceFolder}/.vscode/browse.vc.db" 
+            }
+        }
+    ],
+    "version": 4
+}

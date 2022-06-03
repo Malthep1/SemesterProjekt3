@@ -1,0 +1,24 @@
+# 0 "/mnt/workspace/FoodGiver/branchButton/SemesterProjekt3/buttonDriver/button-overlay.dts"
+# 0 "<built-in>"
+# 0 "<command-line>"
+# 1 "/mnt/workspace/FoodGiver/branchButton/SemesterProjekt3/buttonDriver/button-overlay.dts"
+
+
+/dts-v1/;
+/plugin/;
+/ {
+  compatible = "brcm,bcm2835", "brcm,bcm2836", "brcm,bcm2708", "brcm,bcm2709";
+  fragment@0 {
+
+    target-path = "/";
+    __overlay__ {
+
+      plat_drv: plat_drv@0 {
+
+        compatible = "ase, button_drv";
+        gpios = <&gpio 16 0>;
+        status = "okay";
+      };
+    };
+  };
+};
