@@ -29,7 +29,7 @@ static struct cdev button_cdev;
 static DECLARE_WAIT_QUEUE_HEAD(wq);
 static int event_flag = 0;
 static int isr_gpio_value;
-static int irq_line = gpio_to_irq(GV);
+
 
 static irqreturn_t isr_button_handler(int irq, void *dev_id){
     isr_gpio_value = gpio_get_value(GV);
@@ -73,7 +73,7 @@ int mygpio_open(struct inode *inode, struct file *filep)
     int major, minor, err;
     major = MAJOR(inode->i_rdev);
     minor = MINOR(inode->i_rdev);
-    err = request_irq(irq_line, isr_button_handler, IRQF_TRIGGER_FALLING, "button_isr");
+    err = request_irq(gpio_to_irq(GV), isr_button_handler, IRQF_TRIGGER_FALLING, "button_isr", NULL);
     printk("Opening MyGpio Device [major], [minor]: %i, %i\n", major, minor);
     return 0;
 }
@@ -84,7 +84,7 @@ int mygpio_release(struct inode *inode, struct file *filep)
 
     major = MAJOR(inode->i_rdev);
     minor = MINOR(inode->i_rdev);
-    free_irq(irq_line);
+    free_irq(gpio_to_irq(GV), NULL);
     printk("Closing/Releasing MyGpio Device [major], [minor]: %i, %i\n", major, minor);
 
     return 0;
