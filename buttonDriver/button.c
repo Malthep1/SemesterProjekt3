@@ -25,10 +25,18 @@ static dev_t denvo;
 static struct class *button_class;
 static struct cdev button_cdev;
 
+// initializes wait_queue_head_t wq
 static DECLARE_WAIT_QUEUE_HEAD(wq);
-static int flag = 0;
+static int event_flag = 0;
 static int isr_gpio_value;
-static int proc_gpio_value;
+static int irq_line = gpio_to_irq(GV);
+
+static irqreturn_t isr_button_handler(int irq, void *dev_id){
+    isr_gpio_value = gpio_get_value(GV);
+    event_flag = 1;
+    wake_up_interruptible(&wq);
+    return IRQ_HANDLED;
+} 
 
 static ssize_t button_state_store(struct device *dev, struct device_attribute * attr, const char *buf, size_t size)
 {
@@ -62,9 +70,10 @@ static struct attribute* button_attrs[] = {
 
 int mygpio_open(struct inode *inode, struct file *filep)
 {
-    int major, minor;
+    int major, minor, err;
     major = MAJOR(inode->i_rdev);
     minor = MINOR(inode->i_rdev);
+    err = request_irq(irq_line, isr_button_handler, IRQF_TRIGGER_FALLING, "button_isr");
     printk("Opening MyGpio Device [major], [minor]: %i, %i\n", major, minor);
     return 0;
 }
@@ -75,6 +84,7 @@ int mygpio_release(struct inode *inode, struct file *filep)
 
     major = MAJOR(inode->i_rdev);
     minor = MINOR(inode->i_rdev);
+    free_irq(irq_line);
     printk("Closing/Releasing MyGpio Device [major], [minor]: %i, %i\n", major, minor);
 
     return 0;
@@ -83,35 +93,17 @@ int mygpio_release(struct inode *inode, struct file *filep)
 ssize_t mygpio_read(struct file *filep, char __user *buf, 
             size_t count, loff_t *f_pos)
 {
-
-    flag = 0;
-
+    wait_event_interruptible(wq, event_flag != 0);
     char kbuf[12];
     int len, value;
-    value = gpio_get_value(GV);
-    proc_gpio_value = gpio_get_value(GV);
+    value = isr_gpio_value;
     len = count< 12 ? count: 12;   /* Truncate to smallest */
     len = snprintf(kbuf, len, "%i", value); /* Create string */
-    //len = sprintf(buf, "%i", proc_gpio_value);
+    pr_info("ISR triggered. Button value: %i\n", value);
     int ctu = copy_to_user(buf, kbuf, ++len);
     if(ctu < 0){pr_info("Error reading GPIO\n");}
+    event_flag = 0;
     *f_pos += len;
-    return len;
-}
-
-ssize_t mygpio_write(struct file *filep, const char __user *ubuf, 
-            size_t count, loff_t *f_pos)
-{
-    int len, value, err = 0;
-    char kbuf[12];
-    len = count< 12? count: 12; /* Truncate to smaller buffer size */
-    err = copy_from_user(kbuf, ubuf, len);
-    if(err < 0){return-EFAULT;}
-    if(kstrtoint(kbuf, 0, &value))/* Convert string to int */
-    pr_err("Error converting string to int\n");
-    gpio_set_value(GV, value);
-    pr_info("Wrote %i from minor %i\n", value, iminor(filep->f_inode));
-    *f_pos+= len; /* Update cursor in file */
     return len;
 }
 
@@ -120,7 +112,6 @@ struct file_operations button_fops = {
     .open =     mygpio_open,
     .release =  mygpio_release,
     .read =     mygpio_read,
-    .write =    mygpio_write,
 };
 
 static int mygpio_probe(struct platform_device *bdev)
